@@ -8,11 +8,51 @@
   <meta name="description" content="JS notebook">
   <meta name="author" content="MIZIX R&D">
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-  <script src="js/scripts.js"></script>
+    <nav class="navbar">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#">
+              <h4>Fragment<span>JS</span></h4>
+            </a>
+          </div>
+      
+          <div class="navbar-menu" id="open-navbar1">
+            <ul class="navbar-nav">
+              <li class="navbar-dropdown">
+                <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id1">
+                  File<i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown" id="my-dropdown-id1">
+                  <li><a href="#">Save</a></li>
+                  <li><a href="#">Save as...</a></li>
+                  <li class="separator"></li>
+                  <li><a href="#">Export</a></li>
+                  <li class="separator"></li>
+                  <li><a href="#">Close</a></li>
+                </ul>
+              </li>
+              <li class="navbar-dropdown">
+                <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id2">
+                  Cell<i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown" id="my-dropdown-id2">
+                  <li><a href="#">Insert above</a></li>
+                  <li><a href="#">Insert below</a></li>
+                  <li class="separator"></li>
+                  <li><a href="#">Run</a></li>
+                  <li class="separator"></li>
+                  <li><a href="#">Delete</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+  <script src="script.js"></script>
 </body>
 </html>
