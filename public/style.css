@@ -128,11 +128,18 @@
 }
 .cell{
 	border-radius: 20px;
-	background-color: #3c4250;
+	background-color:white;
+	border-radius: 20px;
+	border-color: #3c4250;
+	border-style: solid;
+	border-width: 2px;
 	padding: 20px;
 	width: 90vw;
 	display: block;
   	margin-left: auto;
 	margin-top: 20px;
   	margin-right: auto;
+}
+.CodeMirror{
+  height: auto;
 }

@@ -9,15 +9,17 @@
   <meta name="description" content="JS notebook">
   <meta name="author" content="MIZIX R&D">
 
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
   </link>
+  <link rel="stylesheet" href="style.css">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
   </script>
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
     </script>
+  <script src="show-hint.js"></script>
+  <script src="javascript-hint.js"></script>
 </head>
 
 <body>
@@ -75,9 +77,10 @@
   <script src="script.js"></script>
   <script>
     CodeMirror(document.querySelector('#codeEditor'), {
-      lineNumbers: true,
+      lineNumbers: false,
       tabSize: 2,
       mode: 'javascript',
+      extraKeys: { "Ctrl-Space": "autocomplete" },
       value: 'console.log("Hello, World");'
     });
   </script>
