@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
@@ -9,58 +10,77 @@
   <meta name="author" content="MIZIX R&D">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
+  </link>
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
+  </script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
+    </script>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="container">
-          <div class="navbar-header">
-            <a href="#">
-              <h4>Fragment<span>JS</span></h4>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="#">
+          <h4>Fragment<span>JS</span></h4>
+        </a>
+      </div>
+
+      <div class="navbar-menu" id="open-navbar1">
+        <ul class="navbar-nav">
+          <li class="navbar-dropdown">
+            <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id1">
+              File<i class="fa fa-angle-down"></i>
             </a>
-          </div>
-      
-          <div class="navbar-menu" id="open-navbar1">
-            <ul class="navbar-nav">
-              <li class="navbar-dropdown">
-                <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id1">
-                  File<i class="fa fa-angle-down"></i>
-                </a>
-                <ul class="dropdown" id="my-dropdown-id1">
-                  <li><a href="#">Save</a></li>
-                  <li><a href="#">Save as...</a></li>
-                  <li class="separator"></li>
-                  <li><a href="#">Export</a></li>
-                  <li class="separator"></li>
-                  <li><a href="#">Close</a></li>
-                </ul>
-              </li>
-              <li class="navbar-dropdown">
-                <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id2">
-                  Cell<i class="fa fa-angle-down"></i>
-                </a>
-                <ul class="dropdown" id="my-dropdown-id2">
-                  <li><a href="#">Insert above</a></li>
-                  <li><a href="#">Insert below</a></li>
-                  <li class="separator"></li>
-                  <li><a href="#">Run</a></li>
-                  <li class="separator"></li>
-                  <li><a href="#">Delete</a></li>
-                </ul>
-              </li>
-              <li class="navbar-dropdown">
-                <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id3">
-                  Functions<i class="fa fa-angle-down"></i>
-                </a>
-                <ul class="dropdown" id="my-dropdown-id3">
-                  <li><a href="#", id="mFuncs">Math</a></li>
-                </ul>
-              </li>
+            <ul class="dropdown" id="my-dropdown-id1">
+              <li><a href="#">Save</a></li>
+              <li><a href="#">Save as...</a></li>
+              <li class="separator"></li>
+              <li><a href="#">Export</a></li>
+              <li class="separator"></li>
+              <li><a href="#">Close</a></li>
             </ul>
-          </div>
-        </div>
-      </nav>
+          </li>
+          <li class="navbar-dropdown">
+            <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id2">
+              Cell<i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown" id="my-dropdown-id2">
+              <li><a href="#">Insert above</a></li>
+              <li><a href="#">Insert below</a></li>
+              <li class="separator"></li>
+              <li><a href="#">Run</a></li>
+              <li class="separator"></li>
+              <li><a href="#">Delete</a></li>
+            </ul>
+          </li>
+          <li class="navbar-dropdown">
+            <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id3">
+              Functions<i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown" id="my-dropdown-id3">
+              <li><a href="#" , id="mFuncs">Math</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="cell">
+    <div id="codeEditor"></div>
+  </div>
   <script src="script.js"></script>
+  <script>
+    CodeMirror(document.querySelector('#codeEditor'), {
+      lineNumbers: true,
+      tabSize: 2,
+      mode: 'javascript',
+      value: 'console.log("Hello, World");'
+    });
+  </script>
 </body>
+
 </html>

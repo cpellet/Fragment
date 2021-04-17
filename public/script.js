@@ -1,6 +1,5 @@
 let dropdowns = document.querySelectorAll('.navbar .dropdown-toggler')
 let dropdownIsOpen = false
-
 if (dropdowns.length) {
   dropdowns.forEach((dropdown) => {
     dropdown.addEventListener('click', (event) => {
@@ -37,19 +36,19 @@ window.addEventListener('mouseup', (event) => {
 })
 
 const getMethods = (obj) => {
-    let properties = new Set()
-    let currentObj = obj
-    do {
-      Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
-    } while ((currentObj = Object.getPrototypeOf(currentObj)))
-    return [...properties.keys()].filter(item => typeof obj[item] === 'function')
-  }
-  
+  let properties = new Set()
+  let currentObj = obj
+  do {
+    Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
+  } while ((currentObj = Object.getPrototypeOf(currentObj)))
+  return [...properties.keys()].filter(item => typeof obj[item] === 'function')
+}
+
 
 const mathFuncDD = document.querySelector("#mFuncs")
 
-getMethods(Math).forEach(function(val){
-    const e = document.createElement("div");
-    e.textContent = val;
-    mathFuncDD.appendChild(e);
+getMethods(Math).forEach(function (val) {
+  const e = document.createElement("div");
+  e.textContent = val;
+  mathFuncDD.appendChild(e);
 })

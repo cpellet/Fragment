@@ -1,0 +1,22 @@
+{
+  "name": "fragment",
+  "version": "1.0.0",
+  "description": "Notebook runner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpellet/Fragment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpellet/Fragment/issues"
+  },
+  "homepage": "https://github.com/cpellet/Fragment#readme",
+  "dependencies": {
+    "codemirror": "^5.60.0"
+  }
+}

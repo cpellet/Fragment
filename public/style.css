@@ -126,3 +126,13 @@
 	 font-weight: 500;
 	 font-size: 1.25rem;
 }
+.cell{
+	border-radius: 20px;
+	background-color: #3c4250;
+	padding: 20px;
+	width: 90vw;
+	display: block;
+  	margin-left: auto;
+	margin-top: 20px;
+  	margin-right: auto;
+}
