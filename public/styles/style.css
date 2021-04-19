@@ -30,6 +30,9 @@ a {
   padding: 1.15rem 1rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.035);
   background-color: #fff;
+  position: fixed;
+  top: 0;
+  z-index: 3;
 }
 
 .navbar .navbar-header {
@@ -63,6 +66,7 @@ a {
   display: block;
   color: black;
   padding: 12px 15px;
+  cursor: pointer;
 }
 
 .arrow {
@@ -142,15 +146,14 @@ a {
 }
 
 .cell {
-  border-radius: 20px;
-  background-color: white;
-  box-shadow: 10px 5px 15px #3c42504d;
-  padding: 20px;
-  width: 90vw;
-  display: block;
-  margin-left: auto;
-  margin-top: 20px;
-  margin-right: auto;
+  border: 15px;
+  background-color: #414141;
+  height: min-content;
+  width: 100%;
+  padding: 15px;
+  border-radius: 12.5px;
+  border: 2px solid black;
+  margin: 15px;
 }
 .skeletonCell {
   border-radius: 20px;
@@ -175,4 +178,17 @@ a {
 .CodeMirror {
   height: auto;
   background-color: transparent;
+}
+
+#notebook-contents {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.938);
+  width: 75vw;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 6rem;
+  height: 100vh;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  justify-content: center;
 }

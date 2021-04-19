@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
   </link>
   <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/show-hint.css">
+  <link rel="stylesheet" href="styles/monokai.css">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
   </script>
@@ -25,7 +27,7 @@
 <body>
   <nav class="navbar">
     <div class="container">
-      <div class="navbar-header">
+      <div class="navbar-header"> 
         <a href="#">
           <h4>Fragment<span>JS</span></h4>
         </a>
@@ -87,15 +89,16 @@
   <div id="notebook-contents">
   </div>
   <script src="scripts/script.js"></script>
-  <script>
+  <!-- <script>
     CodeMirror(document.querySelector('.cell'), {
       lineNumbers: false,
       tabSize: 2,
+      theme: 'monokai',
       mode: 'javascript',
       extraKeys: { "Ctrl-Space": "autocomplete" },
       value: 'console.log("Hello, World");'
     });
-  </script>
+  </script> -->
 </body>
 
 </html>
