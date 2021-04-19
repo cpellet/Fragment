@@ -68,6 +68,7 @@ function addCell(above) {
 		tabSize: 2,
 		theme: "monokai",
 		mode: "javascript",
+		autoCloseBrackets: true,
 		extraKeys: { "Ctrl-Space": "autocomplete" },
 		value: "",
 	});
@@ -76,11 +77,20 @@ function addCell(above) {
 	});
 	codeMirrorCell.on("keyup", function (instance, evt) {
 		/*Enables keyboard navigation in autocomplete list*/
+		console.log(evt.key);
 		if (
 			!instance.state.completionActive &&
-			evt.key != "Tab" &&
-			evt.key != "Enter" &&
-			evt.key != ";"
+			evt.key !== "Tab" &&
+			evt.key !== "Enter" &&
+			evt.key !== ";" &&
+			evt.key !== "}" &&
+			evt.key !== ")" &&
+			evt.key !== "ArrowRight" &&
+			evt.key !== "ArrowLeft" &&
+			evt.key !== "ArrowUp" &&
+			evt.key !== "ArrowDown" &&
+			evt.key !== "Escape" &&
+			evt.key !== "Backspace"
 		) {
 			/*Enter - do not open autocomplete list just after item has been selected in it*/
 			CodeMirror.commands.autocomplete(instance, null, {
