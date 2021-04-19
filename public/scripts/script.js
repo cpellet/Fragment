@@ -67,7 +67,7 @@ function addCell(above) {
 		lineWrapping: true,
 		tabSize: 2,
 		theme: "monokai",
-		mode: "javascript",
+		mode: {name: "javascript", globalVars: true},
 		autoCloseBrackets: true,
 		extraKeys: { "Ctrl-Space": "autocomplete" },
 		value: "",
