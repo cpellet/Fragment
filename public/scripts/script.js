@@ -66,7 +66,6 @@ function addCell(above) {
 		lineNumbers: false,
 		lineWrapping: true,
 		tabSize: 2,
-		theme: "monokai",
 		mode: "javascript",
 		autoCloseBrackets: true,
 		extraKeys: { "Ctrl-Space": "autocomplete" },
@@ -108,9 +107,13 @@ function addCell(above) {
 	deleteSkeletonCells();
 }
 
-function addSkeletonCell(above) {
+function addSkeletonCell(above, type) {
 	const e = document.createElement("div");
+	const t = document.createElement("a");
 	e.classList.add("skeletonCell");
+	t.classList.add("skeletonText")
+	t.textContent = type;
+	e.appendChild(t);
 	if (above) {
 		notebookContents.insertBefore(e, focusedElem);
 	} else {
@@ -138,10 +141,11 @@ function runCell() {
 		nextCell.classList.add("selected");
 		nextCell.firstChild.firstChild.focus();
 	}
-	//alert("Run cell : " + focusedElem);
+	console.log(eval(focusedElem.firstChild.CodeMirror.getValue()))
 }
 
 function displayDeleteSkeleton() {
+	focusedElem.classList.remove("selected");
 	focusedElem.classList.add("markedForDeletion");
 }
 
@@ -160,8 +164,22 @@ function KeyPress(e) {
 	if (evtobj.keyCode == 8 && evtobj.ctrlKey) deleteCell();
 	if (evtobj.keyCode == 40 && evtobj.ctrlKey) addCell(false);
 	if (evtobj.keyCode == 38 && evtobj.ctrlKey) addCell(true);
-	if (evtobj.keyCode == 13 && evtobj.shiftKey) {
+	if (evtobj.keyCode == 13 && evtobj.ctrlKey) {
 		e.preventDefault();
 		runCell();
 	}
+}
+
+const mathMenu = document.querySelector("#mathfuncmenu");
+
+getMethods(Math).forEach((e) => {
+	addSubmenu(mathMenu, e);
+});
+
+function addSubmenu(menu, title) {
+	const e = document.createElement("li");
+	const a = document.createElement("a");
+	a.textContent = title;
+	e.appendChild(a);
+	menu.appendChild(e);
 }

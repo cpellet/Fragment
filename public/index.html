@@ -28,7 +28,7 @@
 <body>
   <nav class="navbar">
     <div class="container">
-      <div class="navbar-header"> 
+      <div class="navbar-header">
         <a href="#">
           <h4>Fragment<span>JS</span></h4>
         </a>
@@ -55,8 +55,14 @@
               <a>Insert above <i class="arrow right"></i></a>
               <ul class="submenu">
                 <li>
-                  <a onclick="addCell(true)" onmouseover="addSkeletonCell(true)" onmouseout="deleteSkeletonCells()">Code
+                  <a onclick="addCell(true)" onmouseover="addSkeletonCell(true,  'CODE')"
+                    onmouseout="deleteSkeletonCells()">Code
                     cell<span>Ctrl + ↑</span></a>
+                </li>
+                <li>
+                  <a onclick="addCell(true)" onmouseover="addSkeletonCell(true,  'MARKDOWN')"
+                    onmouseout="deleteSkeletonCells()">Markdown
+                    cell<span>Ctrl + Shift + ↑</span></a>
                 </li>
               </ul>
             </li>
@@ -64,9 +70,14 @@
               <a>Insert below <i class="arrow right"></i></a>
               <ul class="submenu">
                 <li>
-                  <a onclick="addCell(false)" onmouseover="addSkeletonCell(false)"
+                  <a onclick="addCell(false)" onmouseover="addSkeletonCell(false,  'CODE')"
                     onmouseout="deleteSkeletonCells()">Code
                     cell<span>Ctrl + ↓</span></a>
+                </li>
+                <li>
+                  <a onclick="addCell(false)" onmouseover="addSkeletonCell(false,  'MARKDOWN')"
+                    onmouseout="deleteSkeletonCells()">Markdown
+                    cell<span>Ctrl + Shift + ↓</span></a>
                 </li>
               </ul>
             </li>
@@ -80,7 +91,10 @@
           <a>Functions</a>
           <ul class="submenu">
             <li class="dropdown">
-              <a>Math</a>
+              <a>Math <i class="arrow right"></i></a>
+              <ul class="submenu" id="mathfuncmenu">
+
+              </ul>
             </li>
           </ul>
         </li>

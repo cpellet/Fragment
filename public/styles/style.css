@@ -153,11 +153,10 @@ a {
 
 .cell {
 	border: 15px;
-	background-color: #414141;
 	height: min-content;
 	width: 80%;
 	border-radius: 12.5px;
-	border: 2px solid black;
+	border: 2px solid rgba(0, 0, 0, 0.589);
 	margin: 2rem auto 2rem auto;
 }
 
@@ -171,10 +170,19 @@ a {
 	background-color: white;
 	border-style: dotted;
 	border-color: #3c42504d;
-	padding: 15px;
 	width: 80%;
 	height: calc(1.25rem + 30px);
 	margin: 2rem auto 2rem auto;
+}
+
+.skeletonText{
+	display: block;
+	margin: auto;
+	width: 0%;
+	font-weight: 800;
+	color: #3c425069;
+	font-size: x-large;
+	padding-top: 8px;
 }
 
 .markedForDeletion {
@@ -187,9 +195,10 @@ a {
 	background-color: rgba(255, 255, 255, 0.938);
 	width: 75vw;
 	margin: 6rem auto 1rem auto;
-	height: 100vh;
-	border-radius: 5px;
-	padding: 3rem 0 3rem 0;
+	min-height: 100px;
+	height: auto;
+	border-radius: 20px;
+	padding: 10px 0 10px 0;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
