@@ -32,27 +32,27 @@
       </div>
       <ul class="menu">
         <li class="dropdown">
-          <a href="">File</a>
+          <a>File</a>
           <ul class="submenu">
             <li>
-              <a href="">Open</a>
+              <a>Open</a>
             </li>
             <li>
-              <a href="">Save</a>
+              <a>Save</a>
             </li>
             <li>
-              <a href="">Close</a>
+              <a>Close</a>
             </li>
           </ul>
         </li>
         <li class="dropdown">
-          <a href="">Cell</a>
+          <a>Cell</a>
           <ul class="submenu">
             <li>
-              <a href="">Insert above</a>
+              <a>Insert above</a>
             </li>
             <li class="dropdown">
-              <a href="">Insert below</a>
+              <a>Insert below</a>
               <ul class="submenu">
                 <li>
                   <a onclick="addCell()" onmouseover="addSkeletonCell()" onmouseout="deleteSkeletonCells()">Code
@@ -61,11 +61,14 @@
               </ul>
             </li>
             <li>
-              <a href="">Delete</a>
+              <a onclick="deleteCell()" onmouseover="displayDeleteSkeleton()"
+                onmouseout="removeDeleteSkeletons()">Delete</a>
             </li>
           </ul>
         </li>
-        <li><a href="">Functions</a></li>
+        <li>
+          <a">Functions</a>
+        </li>
       </ul>
 
   </nav>

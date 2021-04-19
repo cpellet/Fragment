@@ -82,4 +82,17 @@ function deleteSkeletonCells(event) {
 
 function deleteCell() {
   focusedElem.remove();
+  removeDeleteSkeletons();
+}
+
+function displayDeleteSkeleton() {
+  focusedElem.classList.add("markedForDeletion")
+}
+
+function removeDeleteSkeletons() {
+  for (let index = 0; index < notebookContents.children.length; index++) {
+    if (notebookContents.children[index].classList.contains("markedForDeletion")) {
+      notebookContents.children[index].classList.remove("markedForDeletion");
+    }
+  }
 }
