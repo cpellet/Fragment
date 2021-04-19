@@ -35,6 +35,8 @@ window.addEventListener('mouseup', (event) => {
   }
 })
 
+document.onkeydown = KeyPress;
+
 const getMethods = (obj) => {
   let properties = new Set()
   let currentObj = obj
@@ -49,10 +51,14 @@ const notebookContents = document.querySelector("#notebook-contents")
 
 var focusedElem;
 
-function addCell() {
+function addCell(above) {
   const e = document.createElement("div");
   e.classList.add("cell");
-  notebookContents.appendChild(e);
+  if (above) {
+    notebookContents.insertBefore(e, focusedElem);
+  } else {
+    notebookContents.appendChild(e);
+  }
   CodeMirror(e, {
     lineNumbers: false,
     lineWrapping: true,
@@ -66,10 +72,14 @@ function addCell() {
   deleteSkeletonCells();
 }
 
-function addSkeletonCell() {
+function addSkeletonCell(above) {
   const e = document.createElement("div");
   e.classList.add("skeletonCell");
-  notebookContents.appendChild(e);
+  if (above) {
+    notebookContents.insertBefore(e, focusedElem);
+  } else {
+    notebookContents.appendChild(e);
+  }
 }
 
 function deleteSkeletonCells(event) {
@@ -95,4 +105,11 @@ function removeDeleteSkeletons() {
       notebookContents.children[index].classList.remove("markedForDeletion");
     }
   }
+}
+
+function KeyPress(e) {
+  var evtobj = window.event ? event : e
+  if (evtobj.keyCode == 8 && evtobj.ctrlKey) deleteCell();
+  if (evtobj.keyCode == 40 && evtobj.ctrlKey) addCell(false);
+  if (evtobj.keyCode == 38 && evtobj.ctrlKey) addCell(true);
 }

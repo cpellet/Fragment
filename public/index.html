@@ -48,14 +48,21 @@
         <li class="dropdown">
           <a>Cell</a>
           <ul class="submenu">
-            <li>
+            <li class="dropdown">
               <a>Insert above</a>
+              <ul class="submenu">
+                <li>
+                  <a onclick="addCell(true)" onmouseover="addSkeletonCell(true)" onmouseout="deleteSkeletonCells()">Code
+                    cell</a>
+                </li>
+              </ul>
             </li>
             <li class="dropdown">
               <a>Insert below</a>
               <ul class="submenu">
                 <li>
-                  <a onclick="addCell()" onmouseover="addSkeletonCell()" onmouseout="deleteSkeletonCells()">Code
+                  <a onclick="addCell(false)" onmouseover="addSkeletonCell(false)"
+                    onmouseout="deleteSkeletonCells()">Code
                     cell</a>
                 </li>
               </ul>
