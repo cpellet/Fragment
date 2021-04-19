@@ -63,6 +63,26 @@
   color: black;
   padding: 12px 15px;
 }
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-left: 20%;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.menu > li a span {
+	 color: rgb(127, 127, 245);
+	 font-style: italic;
+	 margin-left: 22%;
+}
+
 .menu li.dropdown > a::after {
   font-style: normal;
   font-weight: 400;

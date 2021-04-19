@@ -49,32 +49,37 @@
           <a>Cell</a>
           <ul class="submenu">
             <li class="dropdown">
-              <a>Insert above</a>
+              <a>Insert above <i class="arrow right"></i></a>
               <ul class="submenu">
                 <li>
                   <a onclick="addCell(true)" onmouseover="addSkeletonCell(true)" onmouseout="deleteSkeletonCells()">Code
-                    cell</a>
+                    cell<span>Ctrl + ↑</span></a>
                 </li>
               </ul>
             </li>
             <li class="dropdown">
-              <a>Insert below</a>
+              <a>Insert below <i class="arrow right"></i></a>
               <ul class="submenu">
                 <li>
                   <a onclick="addCell(false)" onmouseover="addSkeletonCell(false)"
                     onmouseout="deleteSkeletonCells()">Code
-                    cell</a>
+                    cell<span>Ctrl + ↓</span></a>
                 </li>
               </ul>
             </li>
             <li>
               <a onclick="deleteCell()" onmouseover="displayDeleteSkeleton()"
-                onmouseout="removeDeleteSkeletons()">Delete</a>
+                onmouseout="removeDeleteSkeletons()">Delete<span>Ctrl+Backspace</span></a>
             </li>
           </ul>
         </li>
-        <li>
-          <a">Functions</a>
+        <li class="dropdown">
+          <a>Functions</a>
+          <ul class="submenu">
+            <li class="dropdown">
+              <a>Math</a>
+            </li>
+          </ul>
         </li>
       </ul>
 
