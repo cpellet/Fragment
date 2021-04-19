@@ -30,53 +30,50 @@
           <h4>Fragment<span>JS</span></h4>
         </a>
       </div>
+      <ul class="menu">
+        <li class="dropdown">
+          <a href="">File</a>
+          <ul class="submenu">
+            <li>
+              <a href="">Open</a>
+            </li>
+            <li>
+              <a href="">Save</a>
+            </li>
+            <li>
+              <a href="">Close</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="">Cell</a>
+          <ul class="submenu">
+            <li>
+              <a href="">Insert above</a>
+            </li>
+            <li class="dropdown">
+              <a href="">Insert below</a>
+              <ul class="submenu">
+                <li>
+                  <a onclick="addCell()" onmouseover="addSkeletonCell()" onmouseout="deleteSkeletonCells()">Code
+                    cell</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="">Delete</a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="">Functions</a></li>
+      </ul>
 
-      <div class="navbar-menu" id="open-navbar1">
-        <ul class="navbar-nav">
-          <li class="navbar-dropdown">
-            <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id1">
-              File<i class="fa fa-angle-down"></i>
-            </a>
-            <ul class="dropdown" id="my-dropdown-id1">
-              <li><a href="#">Save</a></li>
-              <li><a href="#">Save as...</a></li>
-              <li class="separator"></li>
-              <li><a href="#">Export</a></li>
-              <li class="separator"></li>
-              <li><a href="#">Close</a></li>
-            </ul>
-          </li>
-          <li class="navbar-dropdown">
-            <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id2">
-              Cell<i class="fa fa-angle-down"></i>
-            </a>
-            <ul class="dropdown" id="my-dropdown-id2">
-              <li><a href="#">Insert above</a></li>
-              <li><a href="#">Insert below</a></li>
-              <li class="separator"></li>
-              <li><a href="#">Run</a></li>
-              <li class="separator"></li>
-              <li><a href="#">Delete</a></li>
-            </ul>
-          </li>
-          <li class="navbar-dropdown">
-            <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id3">
-              Functions<i class="fa fa-angle-down"></i>
-            </a>
-            <ul class="dropdown" id="my-dropdown-id3">
-              <li><a href="#" , id="mFuncs">Math</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
   </nav>
-  <div class="cell">
-    <div id="codeEditor"></div>
+  <div id="notebook-contents">
   </div>
   <script src="script.js"></script>
   <script>
-    CodeMirror(document.querySelector('#codeEditor'), {
+    CodeMirror(document.querySelector('.cell'), {
       lineNumbers: false,
       tabSize: 2,
       mode: 'javascript',

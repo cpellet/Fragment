@@ -45,10 +45,41 @@ const getMethods = (obj) => {
 }
 
 
-const mathFuncDD = document.querySelector("#mFuncs")
+const notebookContents = document.querySelector("#notebook-contents")
 
-getMethods(Math).forEach(function (val) {
+var focusedElem;
+
+function addCell() {
   const e = document.createElement("div");
-  e.textContent = val;
-  mathFuncDD.appendChild(e);
-})
+  e.classList.add("cell");
+  notebookContents.appendChild(e);
+  CodeMirror(e, {
+    lineNumbers: false,
+    lineWrapping: true,
+    tabSize: 2,
+    mode: 'javascript',
+    extraKeys: { "Ctrl-Space": "autocomplete" },
+    value: ''
+  }).on("focus", function (instance) {
+    focusedElem = instance.getWrapperElement().parentNode;
+  });
+  deleteSkeletonCells();
+}
+
+function addSkeletonCell() {
+  const e = document.createElement("div");
+  e.classList.add("skeletonCell");
+  notebookContents.appendChild(e);
+}
+
+function deleteSkeletonCells(event) {
+  for (let index = 0; index < notebookContents.children.length; index++) {
+    if (notebookContents.children[index].classList.contains("skeletonCell")) {
+      notebookContents.removeChild(notebookContents.children[index])
+    }
+  }
+}
+
+function deleteCell() {
+  focusedElem.remove();
+}
