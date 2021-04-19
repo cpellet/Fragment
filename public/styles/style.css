@@ -1,194 +1,204 @@
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 body {
-  font-family: "Roboto", sans-serif;
-  font-size: 0.925rem;
+	font-family: "Roboto", sans-serif;
+	font-size: 0.925rem;
 }
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 .container {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 .navbar,
 .navbar .container {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .navbar {
-  padding: 1.15rem 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.035);
-  background-color: #fff;
-  position: fixed;
-  top: 0;
-  z-index: 3;
+	padding: 1.15rem 1rem;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.035);
+	background-color: #fff;
+	position: fixed;
+	top: 0;
+	z-index: 3;
 }
 
 .navbar .navbar-header {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .navbar .navbar-header > a span {
-  color: rgb(127, 127, 245);
+	color: rgb(127, 127, 245);
 }
 .navbar .navbar-header h4 {
-  font-weight: 500;
-  font-size: 1.25rem;
-  color: dimgrey;
+	font-weight: 500;
+	font-size: 1.25rem;
+	color: dimgrey;
 }
 
 .menu {
-  display: block;
-  z-index: 999999;
-  width: 80%;
-  margin: 0 auto;
+	display: block;
+	z-index: 999999;
+	width: 80%;
+	margin: 0 auto;
 }
 .menu li {
-  display: inline-block;
-  position: relative;
+	display: inline-block;
+	position: relative;
+	background-color: white;
 }
 .menu li.dropdown:hover > .submenu {
-  display: block;
+	display: block;
 }
 .menu li a {
-  display: block;
-  color: black;
-  padding: 12px 15px;
-  cursor: pointer;
+	display: block;
+	color: black;
+	padding: 12px 15px;
+	cursor: pointer;
 }
 
 .arrow {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-  margin-left: 20%;
+	border: solid black;
+	border-width: 0 3px 3px 0;
+	display: inline-block;
+	padding: 3px;
+	margin-left: 20%;
 }
 
 .right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
 }
 
 .menu > li a span {
-  color: rgb(127, 127, 245);
-  font-style: italic;
-  margin-left: 22%;
+	color: rgb(127, 127, 245);
+	font-style: italic;
+	margin-left: 22%;
 }
 
 .menu li.dropdown > a::after {
-  font-style: normal;
-  font-weight: 400;
-  margin-left: 8px;
-  font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	margin-left: 8px;
+	font-size: 10px;
 }
 .menu li a::before {
-  font-style: normal;
-  font-weight: 400;
-  margin-right: 8px;
+	font-style: normal;
+	font-weight: 400;
+	margin-right: 8px;
 }
 .menu li a:hover {
-  background-color: rgb(230, 230, 230);
-  border-radius: 20px;
+	background-color: rgb(230, 230, 230);
+	border-radius: 20px;
+}
+
+.menu li:last-child,
+.menu li:last-child a {
+	border-radius: 0px 0px 20px 20px;
 }
 
 .menu .submenu {
-  display: none;
+	display: none;
 }
 .submenu {
-  margin: 0px;
-  padding: 0px;
-  position: absolute;
-  left: 0px;
-  list-style-type: none;
-  display: block;
-  width: 200px;
-  z-index: 9;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	left: 0px;
+	list-style-type: none;
+	display: block;
+	width: 200px;
+	z-index: 9;
 }
 .submenu li {
-  display: block;
+	display: block;
 }
 .submenu li a {
-  display: block;
-  background: white;
-  color: black;
-  padding: 8px 6px;
-  margin-bottom: 1px;
-  cursor: pointer;
+	display: block;
+	background: white;
+	color: black;
+	padding: 8px 6px;
+	margin-bottom: 1px;
+	cursor: pointer;
 }
 .menu .submenu > li.dropdown:hover > .submenu {
-  display: block;
+	display: block;
 }
 
 .menu .submenu .submenu {
-  position: absolute;
-  left: 200px;
-  top: 0px;
+	position: absolute;
+	left: 200px;
+	top: 0px;
 }
 
 .submenu li.dropdown > a:after {
-  font-style: normal;
-  font-weight: 400;
-  margin-left: 8px;
-  font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	margin-left: 8px;
+	font-size: 10px;
 }
 
 .cell {
-  border: 15px;
-  background-color: #414141;
-  height: min-content;
-  width: 100%;
-  padding: 15px;
-  border-radius: 12.5px;
-  border: 2px solid black;
-  margin: 15px;
+	border: 15px;
+	background-color: #414141;
+	height: min-content;
+	width: 80%;
+	border-radius: 12.5px;
+	border: 2px solid black;
+	margin: 2rem auto 2rem auto;
 }
+
+.cell.selected {
+	border-color: transparent;
+	box-shadow: 0 0 0 3px rgb(0, 153, 255);
+}
+
 .skeletonCell {
-  border-radius: 20px;
-  background-color: white;
-  border-style: dotted;
-  border-color: #3c42504d;
-  padding: 20px;
-  width: 90vw;
-  height: 70px;
-  display: block;
-  margin-left: auto;
-  margin-top: 20px;
-  margin-right: auto;
+	border-radius: 20px;
+	background-color: white;
+	border-style: dotted;
+	border-color: #3c42504d;
+	padding: 15px;
+	width: 80%;
+	height: calc(1.25rem + 30px);
+	margin: 2rem auto 2rem auto;
 }
 
 .markedForDeletion {
-  border-style: dotted;
-  border-color: rgba(255, 0, 0, 0.521);
-  background-color: rgba(255, 0, 0, 0.11);
-}
-
-.CodeMirror {
-  height: auto;
-  background-color: transparent;
+	border: 2px dotted rgba(255, 0, 0, 0.521);
+	background-color: rgba(255, 0, 0, 0.11);
+	border-radius: 20px;
 }
 
 #notebook-contents {
-  display: flex;
-  background-color: rgba(255, 255, 255, 0.938);
-  width: 75vw;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 6rem;
-  height: 100vh;
-  border-radius: 5px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  justify-content: center;
+	background-color: rgba(255, 255, 255, 0.938);
+	width: 75vw;
+	margin: 6rem auto 1rem auto;
+	height: 100vh;
+	border-radius: 5px;
+	padding: 3rem 0 3rem 0;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.CodeMirror {
+	border-radius: 20px;
+	height: auto;
+	background-color: transparent;
+}
+/* PADDING */
+.CodeMirror-lines {
+	padding: 15px; /*padding around content */
 }

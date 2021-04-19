@@ -71,13 +71,17 @@ function addCell(above) {
 		autoCloseBrackets: true,
 		extraKeys: { "Ctrl-Space": "autocomplete" },
 		value: "",
+		autofocus: true,
 	});
 	codeMirrorCell.on("focus", function (instance) {
 		focusedElem = instance.getWrapperElement().parentNode;
+		focusedElem.classList.add("selected");
+	});
+	codeMirrorCell.on("blur", function (instance) {
+		instance.getWrapperElement().parentNode.classList.remove("selected");
 	});
 	codeMirrorCell.on("keyup", function (instance, evt) {
 		/*Enables keyboard navigation in autocomplete list*/
-		console.log(evt.key);
 		if (
 			!instance.state.completionActive &&
 			evt.key !== "Tab" &&
@@ -90,7 +94,10 @@ function addCell(above) {
 			evt.key !== "ArrowUp" &&
 			evt.key !== "ArrowDown" &&
 			evt.key !== "Escape" &&
-			evt.key !== "Backspace"
+			evt.key !== "Backspace" &&
+			evt.key !== "Control" &&
+			evt.key !== "Shift" &&
+			evt.key !== "Alt"
 		) {
 			/*Enter - do not open autocomplete list just after item has been selected in it*/
 			CodeMirror.commands.autocomplete(instance, null, {
@@ -124,6 +131,16 @@ function deleteCell() {
 	removeDeleteSkeletons();
 }
 
+function runCell() {
+	focusedElem.classList.remove("selected");
+	const nextCell = focusedElem.nextElementSibling;
+	if (nextCell) {
+		nextCell.classList.add("selected");
+		nextCell.firstChild.firstChild.focus();
+	}
+	//alert("Run cell : " + focusedElem);
+}
+
 function displayDeleteSkeleton() {
 	focusedElem.classList.add("markedForDeletion");
 }
@@ -143,4 +160,8 @@ function KeyPress(e) {
 	if (evtobj.keyCode == 8 && evtobj.ctrlKey) deleteCell();
 	if (evtobj.keyCode == 40 && evtobj.ctrlKey) addCell(false);
 	if (evtobj.keyCode == 38 && evtobj.ctrlKey) addCell(true);
+	if (evtobj.keyCode == 13 && evtobj.shiftKey) {
+		e.preventDefault();
+		runCell();
+	}
 }
