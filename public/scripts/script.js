@@ -55,14 +55,24 @@ const notebookContents = document.querySelector("#notebook-contents");
 var focusedElem;
 
 function addCell(above, type) {
-	const e = document.createElement("div");
-	e.classList.add("cell");
+	const cellContainer = document.createElement("div");
+	const cellScript = document.createElement("div");
+	const cellResult = document.createElement("div");
+
+	cellContainer.classList.add("cell");
+	cellScript.classList.add("cell-script");
+	cellResult.classList.add("cell-result");
+	cellResult.classList.add("hidden");
+	cellResult.textContent = "wsh";
+
+	cellContainer.appendChild(cellScript);
+	cellContainer.appendChild(cellResult);
 	if (above) {
-		notebookContents.insertBefore(e, focusedElem);
+		notebookContents.insertBefore(cellContainer, focusedElem);
 	} else {
-		notebookContents.appendChild(e);
+		notebookContents.appendChild(cellContainer);
 	}
-	const codeMirrorCell = CodeMirror(e, {
+	const codeMirrorCell = CodeMirror(cellScript, {
 		lineNumbers: false,
 		lineWrapping: true,
 		tabSize: 2,
@@ -76,7 +86,7 @@ function addCell(above, type) {
 	}
 
 	codeMirrorCell.on("focus", function (instance) {
-		focusedElem = instance.getWrapperElement().parentNode;
+		focusedElem = instance.getWrapperElement().parentNode.parentNode;
 		focusedElem.classList.add("selected");
 	});
 	codeMirrorCell.on("blur", function (instance) {
@@ -84,7 +94,6 @@ function addCell(above, type) {
 	});
 	codeMirrorCell.on("keyup", function (instance, evt) {
 		/*Enables keyboard navigation in autocomplete list*/
-		console.log(evt.key);
 		if (
 			!instance.state.completionActive &&
 			evt.key !== "Tab" &&

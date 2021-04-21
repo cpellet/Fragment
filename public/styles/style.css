@@ -151,20 +151,6 @@ a {
 	font-size: 10px;
 }
 
-.cell {
-	border: 15px;
-	height: min-content;
-	width: 80%;
-	border-radius: 12.5px;
-	border: 2px solid rgba(0, 0, 0, 0.589);
-	margin: 2rem auto 2rem auto;
-}
-
-.cell.selected {
-	border-color: transparent;
-	box-shadow: 0 0 0 3px rgb(0, 153, 255);
-}
-
 .skeletonCell {
 	border-radius: 20px;
 	background-color: white;
@@ -173,11 +159,10 @@ a {
 	width: 80%;
 	height: calc(1.25rem + 30px);
 	margin: 2rem auto 2rem auto;
+	text-align: center;
 }
 
-.skeletonText{
-	display: block;
-	margin: auto;
+.skeletonText {
 	width: 0%;
 	font-weight: 800;
 	color: #3c425069;
@@ -200,6 +185,36 @@ a {
 	border-radius: 20px;
 	padding: 10px 0 10px 0;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.cell {
+	border: 15px;
+	height: min-content;
+	width: 80%;
+	margin: 2rem auto 2rem auto;
+}
+
+.cell-script.selected {
+	border-color: transparent;
+	box-shadow: 0 0 0 3.2px rgb(0, 153, 255);
+}
+
+.cell-script {
+	border-radius: 12.5px;
+	border: 3px solid rgba(0, 0, 0, 0.589);
+}
+
+.cell-result {
+	width: 80%;
+	border: 2px solid rgb(187, 187, 187);
+	background-color: rgb(231, 231, 231);
+	margin: 0.5rem auto auto auto;
+	padding: 10px;
+	border-radius: 3px;
+}
+
+.hidden {
+	display: none;
 }
 
 .CodeMirror {
