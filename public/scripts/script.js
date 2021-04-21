@@ -87,7 +87,6 @@ function addCell(above, type) {
 	}
 
 	codeMirrorCell.on("focus", function (instance) {
-		console.log("foucused");
 		focusedElem = instance.getWrapperElement().parentNode.parentNode;
 		focusedElem.firstChild.classList.add("selected");
 	});
