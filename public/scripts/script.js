@@ -61,16 +61,16 @@ function addCell(above, type) {
 
 	cellContainer.classList.add("cell");
 	cellScript.classList.add("cell-script");
+	cellScript.classList.add("selected");
 	cellResult.classList.add("cell-result");
 	cellResult.classList.add("hidden");
-	cellResult.textContent = "wsh";
 
 	cellContainer.appendChild(cellScript);
 	cellContainer.appendChild(cellResult);
 	if (above) {
 		notebookContents.insertBefore(cellContainer, focusedElem);
 	} else {
-		notebookContents.appendChild(cellContainer);
+		focusedElem.after(cellContainer);
 	}
 	const codeMirrorCell = CodeMirror(cellScript, {
 		lineNumbers: false,
@@ -81,13 +81,15 @@ function addCell(above, type) {
 		value: "",
 		autofocus: true,
 	});
+
 	if (type === "CODE") {
 		codeMirrorCell.setOption("mode", { name: "javascript", globalVars: true });
 	}
 
 	codeMirrorCell.on("focus", function (instance) {
+		console.log("foucused");
 		focusedElem = instance.getWrapperElement().parentNode.parentNode;
-		focusedElem.classList.add("selected");
+		focusedElem.firstChild.classList.add("selected");
 	});
 	codeMirrorCell.on("blur", function (instance) {
 		instance.getWrapperElement().parentNode.classList.remove("selected");
@@ -117,6 +119,7 @@ function addCell(above, type) {
 			});
 		}
 	});
+	codeMirrorCell.focus();
 	deleteSkeletonCells();
 }
 
@@ -143,21 +146,35 @@ function deleteSkeletonCells(event) {
 }
 
 function deleteCell() {
-	focusedElem.remove();
 	if (notebookContents.childElementCount === 0) {
 		focusedElem = undefined;
+		focusedElem.remove();
+	} else {
+		focusedElem = focusedElem.previousSibling;
+		focusedElem.firstChild.classList.add("selected");
 	}
+
 	removeDeleteSkeletons();
 }
 
 function runCell() {
-	focusedElem.classList.remove("selected");
-	const nextCell = focusedElem.nextElementSibling;
+	const resultCell = focusedElem.firstChild.nextElementSibling;
+	const scriptValue = focusedElem.firstChild.firstChild.CodeMirror.getValue();
+	resultCell.textContent = evaluate(scriptValue);
+	if (scriptValue.replace(/ /g, "") !== "") {
+		focusedElem.firstChild.classList.remove("selected");
+		resultCell.classList.remove("hidden");
+	}
+
+	const nextCell = focusedElem.parentNode.nextElementSibling.firstChild;
 	if (nextCell) {
 		nextCell.classList.add("selected");
 		nextCell.firstChild.firstChild.focus();
 	}
-	console.log(eval(focusedElem.firstChild.CodeMirror.getValue()));
+}
+
+function evaluate(data) {
+	return eval(data);
 }
 
 function displayDeleteSkeleton() {
@@ -177,10 +194,14 @@ function removeDeleteSkeletons() {
 
 function KeyPress(e) {
 	var evtobj = window.event ? event : e;
-	if (evtobj.keyCode == 8 && evtobj.ctrlKey) deleteCell();
-	if (evtobj.keyCode == 40 && evtobj.ctrlKey) addCell(false);
-	if (evtobj.keyCode == 38 && evtobj.ctrlKey) addCell(true);
-	if (evtobj.keyCode == 13 && evtobj.ctrlKey) {
+	if (evtobj.keyCode === 8 && evtobj.ctrlKey) deleteCell();
+	else if (evtobj.keyCode === 40 && evtobj.ctrlKey && evtobj.shiftKey)
+		addCell(false, "MARKDOWN");
+	else if (evtobj.keyCode === 38 && evtobj.ctrlKey && evtobj.shiftKey)
+		addCell(true, "MARKDOWN");
+	else if (evtobj.keyCode === 40 && evtobj.ctrlKey) addCell(false, "CODE");
+	else if (evtobj.keyCode === 38 && evtobj.ctrlKey) addCell(true, "CODE");
+	else if (evtobj.keyCode === 13 && evtobj.ctrlKey) {
 		e.preventDefault();
 		runCell();
 	}

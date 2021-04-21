@@ -202,6 +202,7 @@ a {
 .cell-script {
 	border-radius: 12.5px;
 	border: 3px solid rgba(0, 0, 0, 0.589);
+	background-color: rgb(238 238 238 / 46%);
 }
 
 .cell-result {
