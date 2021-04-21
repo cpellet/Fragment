@@ -70,7 +70,8 @@ function addCell(above, type) {
 	if (above) {
 		notebookContents.insertBefore(cellContainer, focusedElem);
 	} else {
-		focusedElem.after(cellContainer);
+		if (focusedElem === undefined) notebookContents.appendChild(cellContainer);
+		else focusedElem.after(cellContainer);
 	}
 	const codeMirrorCell = CodeMirror(cellScript, {
 		lineNumbers: false,
@@ -149,8 +150,12 @@ function deleteCell() {
 		focusedElem = undefined;
 		focusedElem.remove();
 	} else {
+		const tempFocusedElement = focusedElem;
 		focusedElem = focusedElem.previousSibling;
+		tempFocusedElement.remove();
+		console.log(focusedElem);
 		focusedElem.firstChild.classList.add("selected");
+		focusedElem.firstChild.firstChild.CodeMirror.focus();
 	}
 
 	removeDeleteSkeletons();
