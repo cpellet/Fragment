@@ -54,7 +54,7 @@ const notebookContents = document.querySelector("#notebook-contents");
 
 var focusedElem;
 
-function addCell(above) {
+function addCell(above, type) {
 	const e = document.createElement("div");
 	e.classList.add("cell");
 	if (above) {
@@ -66,13 +66,15 @@ function addCell(above) {
 		lineNumbers: false,
 		lineWrapping: true,
 		tabSize: 2,
-		mode: "javascript",
-		mode: { name: "javascript", globalVars: true },
 		autoCloseBrackets: true,
 		extraKeys: { "Ctrl-Space": "autocomplete" },
 		value: "",
 		autofocus: true,
 	});
+	if (type === "CODE") {
+		codeMirrorCell.setOption("mode", { name: "javascript", globalVars: true });
+	}
+
 	codeMirrorCell.on("focus", function (instance) {
 		focusedElem = instance.getWrapperElement().parentNode;
 		focusedElem.classList.add("selected");
@@ -82,6 +84,7 @@ function addCell(above) {
 	});
 	codeMirrorCell.on("keyup", function (instance, evt) {
 		/*Enables keyboard navigation in autocomplete list*/
+		console.log(evt.key);
 		if (
 			!instance.state.completionActive &&
 			evt.key !== "Tab" &&
@@ -112,7 +115,7 @@ function addSkeletonCell(above, type) {
 	const e = document.createElement("div");
 	const t = document.createElement("a");
 	e.classList.add("skeletonCell");
-	t.classList.add("skeletonText")
+	t.classList.add("skeletonText");
 	t.textContent = type;
 	e.appendChild(t);
 	if (above) {
@@ -132,6 +135,9 @@ function deleteSkeletonCells(event) {
 
 function deleteCell() {
 	focusedElem.remove();
+	if (notebookContents.childElementCount === 0) {
+		focusedElem = undefined;
+	}
 	removeDeleteSkeletons();
 }
 
@@ -142,7 +148,7 @@ function runCell() {
 		nextCell.classList.add("selected");
 		nextCell.firstChild.firstChild.focus();
 	}
-	console.log(eval(focusedElem.firstChild.CodeMirror.getValue()))
+	console.log(eval(focusedElem.firstChild.CodeMirror.getValue()));
 }
 
 function displayDeleteSkeleton() {
