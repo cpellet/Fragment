@@ -181,7 +181,13 @@ function runCell() {
 }
 
 function evaluate(data) {
-	return eval(data);
+	let message = "";
+	try {
+		message = eval(data);
+	} catch (e) {
+		message = e;
+	}
+	return message;
 }
 
 function displayDeleteSkeleton() {
