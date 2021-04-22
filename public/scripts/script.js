@@ -67,6 +67,8 @@ function addCell(above, type) {
 
 	cellContainer.appendChild(cellScript);
 	cellContainer.appendChild(cellResult);
+	cellScript.appendChild(addScriptLanguagesButtons());
+
 	if (above) {
 		notebookContents.insertBefore(cellContainer, focusedElem);
 	} else {
@@ -163,7 +165,8 @@ function deleteCell() {
 
 function runCell() {
 	const resultCell = focusedElem.firstChild.nextElementSibling;
-	const scriptValue = focusedElem.firstChild.firstChild.CodeMirror.getValue();
+	const scriptValue = focusedElem.firstChild.firstChild.nextElementSibling.CodeMirror.getValue();
+
 	resultCell.textContent = evaluate(scriptValue);
 	if (scriptValue.replace(/ /g, "") !== "") {
 		focusedElem.firstChild.classList.remove("selected");
@@ -223,4 +226,94 @@ function addSubmenu(menu, title) {
 	a.textContent = title;
 	e.appendChild(a);
 	menu.appendChild(e);
+}
+
+// <div class="script-language-selector">
+// 	<label>
+// 		<i class="fab fa-js-square"></i>JS
+// 	</label>
+// 	<input
+// 		type="radio"
+// 		name="script-language"
+// 		class="script-language-radio"
+// 		value="js"
+// 		checked
+// 	/>
+// 	<label>
+// 		<i class="fab fa-python"></i>Py
+// 	</label>
+// 	<input
+// 		type="radio"
+// 		name="script-language"
+// 		class="script-language-radio"
+// 		value="py"
+// 	/>
+// 	<label>
+// 		<i class="fab fa-html5"></i>HTML
+// 	</label>
+// 	<input
+// 		type="radio"
+// 		name="script-language"
+// 		class="script-language-radio"
+// 		value="html"
+// 	/>
+// </div>;
+
+function addScriptLanguagesButtons() {
+	const buttonContainer = document.createElement("div");
+	const jsLabel = document.createElement("label");
+	const pyLabel = document.createElement("label");
+	const htmlLabel = document.createElement("label");
+	const runButton = document.createElement("button");
+	const icon = document.createElement("i");
+
+	const jsRadioBtn = document.createElement("input");
+	const pyRadioBtn = document.createElement("input");
+	const htmlRadioBtn = document.createElement("input");
+
+	jsRadioBtn.type = "radio";
+	pyRadioBtn.type = "radio";
+	htmlRadioBtn.type = "radio";
+
+	jsRadioBtn.name = "script-language";
+	pyRadioBtn.name = "script-language";
+	htmlRadioBtn.name = "script-language";
+
+	jsRadioBtn.classList.add("script-language-radio");
+	pyRadioBtn.classList.add("script-language-radio");
+	htmlRadioBtn.classList.add("script-language-radio");
+
+	jsRadioBtn.value = "js";
+	jsRadioBtn.checked = true;
+	pyRadioBtn.value = "py";
+	htmlRadioBtn.value = "html";
+
+	icon.classList.add("fab");
+
+	buttonContainer.classList.add("script-language-selector");
+
+	icon.classList.add("fa-js-square");
+	jsLabel.appendChild(icon);
+	jsLabel.textContent = "JS";
+
+	icon.classList.replace("fa-js-square", "fa-python");
+	pyLabel.appendChild(icon);
+	pyLabel.textContent = "Py";
+
+	icon.classList.replace("fa-python", "fa-html5");
+	htmlLabel.appendChild(icon);
+	htmlLabel.textContent = "HTML";
+
+	runButton.textContent = "Run";
+	runButton.addEventListener("click", runCell);
+
+	buttonContainer.appendChild(jsLabel);
+	buttonContainer.appendChild(jsRadioBtn);
+	buttonContainer.appendChild(pyLabel);
+	buttonContainer.appendChild(pyRadioBtn);
+	buttonContainer.appendChild(htmlLabel);
+	buttonContainer.appendChild(htmlRadioBtn);
+	buttonContainer.appendChild(runButton);
+
+	return buttonContainer;
 }
