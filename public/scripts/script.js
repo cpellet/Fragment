@@ -265,7 +265,18 @@ function addScriptLanguagesButtons() {
 	const pyLabel = document.createElement("label");
 	const htmlLabel = document.createElement("label");
 	const runButton = document.createElement("button");
-	const icon = document.createElement("i");
+
+	const jsIcon = document.createElement("i");
+	const pyIcon = document.createElement("i");
+	const htmlIcon = document.createElement("i");
+
+	jsIcon.classList.add("script-language-icon");
+	pyIcon.classList.add("script-language-icon");
+	htmlIcon.classList.add("script-language-icon");
+
+	const jsText = document.createElement("span");
+	const pyText = document.createElement("span");
+	const htmlText = document.createElement("span");
 
 	const jsRadioBtn = document.createElement("input");
 	const pyRadioBtn = document.createElement("input");
@@ -288,24 +299,28 @@ function addScriptLanguagesButtons() {
 	pyRadioBtn.value = "py";
 	htmlRadioBtn.value = "html";
 
-	icon.classList.add("fab");
+	jsIcon.classList.add("fab");
+	jsIcon.classList.add("fa-js-square");
+	pyIcon.classList.add("fab");
+	pyIcon.classList.add("fa-python");
+	htmlIcon.classList.add("fab");
+	htmlIcon.classList.add("fa-html5");
 
 	buttonContainer.classList.add("script-language-selector");
 
-	icon.classList.add("fa-js-square");
-	jsLabel.appendChild(icon);
-	jsLabel.textContent = "JS";
-
-	icon.classList.replace("fa-js-square", "fa-python");
-	pyLabel.appendChild(icon);
-	pyLabel.textContent = "Py";
-
-	icon.classList.replace("fa-python", "fa-html5");
-	htmlLabel.appendChild(icon);
-	htmlLabel.textContent = "HTML";
+	jsText.textContent = "JS";
+	pyText.textContent = "Py";
+	htmlText.textContent = "HTML";
 
 	runButton.textContent = "Run";
 	runButton.addEventListener("click", runCell);
+
+	jsLabel.appendChild(jsIcon);
+	jsLabel.appendChild(jsText);
+	pyLabel.appendChild(pyIcon);
+	pyLabel.appendChild(pyText);
+	htmlLabel.appendChild(htmlIcon);
+	htmlLabel.appendChild(htmlText);
 
 	buttonContainer.appendChild(jsLabel);
 	buttonContainer.appendChild(jsRadioBtn);
