@@ -53,6 +53,7 @@ const getMethods = (obj) => {
 const notebookContents = document.querySelector("#notebook-contents");
 
 var focusedElem;
+var currentScriptLanguage = "js";
 
 function addCell(above, type) {
 	const cellContainer = document.createElement("div");
@@ -83,8 +84,8 @@ function addCell(above, type) {
 		extraKeys: { "Ctrl-Space": "autocomplete" },
 		value: "",
 		autofocus: true,
+		matchBrackets: true,
 	});
-
 	if (type === "CODE") {
 		codeMirrorCell.setOption("mode", { name: "javascript", globalVars: true });
 	}
@@ -116,9 +117,16 @@ function addCell(above, type) {
 			evt.key !== "Alt"
 		) {
 			/*Enter - do not open autocomplete list just after item has been selected in it*/
-			CodeMirror.commands.autocomplete(instance, null, {
-				completeSingle: false,
-			});
+			if (currentScriptLanguage === "py") {
+				CodeMirror.commands.autocomplete(instance, null, {
+					hint: getHintsPython,
+					completeSingle: false,
+				});
+			} else {
+				CodeMirror.commands.autocomplete(instance, null, {
+					completeSingle: false,
+				});
+			}
 		}
 	});
 	codeMirrorCell.focus();
@@ -321,6 +329,16 @@ function addScriptLanguagesButtons() {
 	runButton.textContent = "Run";
 	runButton.addEventListener("click", runCell);
 
+	jsRadioBtn.addEventListener("change", function (evt) {
+		changeScriptLanguage(evt, "js");
+	});
+	pyRadioBtn.addEventListener("change", function (evt) {
+		changeScriptLanguage(evt, "py");
+	});
+	htmlRadioBtn.addEventListener("change", function (evt) {
+		changeScriptLanguage(evt, "html");
+	});
+
 	jsLabel.appendChild(jsIcon);
 	jsLabel.appendChild(jsText);
 	pyLabel.appendChild(pyIcon);
@@ -337,4 +355,56 @@ function addScriptLanguagesButtons() {
 	buttonContainer.appendChild(runButton);
 
 	return buttonContainer;
+}
+
+function changeScriptLanguage(evt, language) {
+	switch (language) {
+		case "js": {
+			currentScriptLanguage = "js";
+			evt.target.parentNode.nextElementSibling.CodeMirror.setOption("mode", {
+				name: "javascript",
+				globalVars: true,
+			});
+			break;
+		}
+		case "py": {
+			currentScriptLanguage = "py";
+			const codeMirror = evt.target.parentNode.nextElementSibling.CodeMirror;
+			codeMirror.setOption("mode", {
+				name: "python",
+				version: 3,
+				globalVars: true,
+			});
+			break;
+		}
+		case "html": {
+			currentScriptLanguage = "html";
+			evt.target.parentNode.nextElementSibling.CodeMirror.setOption("mode", {
+				name: "html",
+				globalVars: true,
+			});
+			break;
+		}
+
+		default:
+			break;
+	}
+}
+
+function getHintsPython(e) {
+	var hints = CodeMirror.pythonHint(e);
+	var anyHints = CodeMirror.hint.anyword(e);
+
+	anyHints.list.forEach(function (hint) {
+		if (hints.list.indexOf(hint) == -1) hints.list.push(hint);
+	});
+
+	hints.list.sort();
+
+	if (hints) {
+		CodeMirror.on(hints, "pick", function (word) {
+			if (word.charAt(word.length - 1) == ")") editor.execCommand("goCharLeft");
+		});
+	}
+	return hints;
 }
