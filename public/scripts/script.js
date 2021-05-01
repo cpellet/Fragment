@@ -104,6 +104,7 @@ function addCell(above, type) {
 			evt.key !== "Tab" &&
 			evt.key !== "Enter" &&
 			evt.key !== ";" &&
+			evt.key !== ":" &&
 			evt.key !== "}" &&
 			evt.key !== ")" &&
 			evt.key !== "ArrowRight" &&
@@ -163,9 +164,8 @@ function deleteCell() {
 		const tempFocusedElement = focusedElem;
 		focusedElem = focusedElem.previousSibling;
 		tempFocusedElement.remove();
-		console.log(focusedElem);
 		focusedElem.firstChild.classList.add("selected");
-		focusedElem.firstChild.firstChild.CodeMirror.focus();
+		focusedElem.firstChild.firstChild.nextElementSibling.CodeMirror.focus();
 	}
 
 	removeDeleteSkeletons();
@@ -278,19 +278,21 @@ function addScriptLanguagesButtons() {
 	const jsLabel = document.createElement("label");
 	const pyLabel = document.createElement("label");
 	const htmlLabel = document.createElement("label");
-	const runButton = document.createElement("button");
+	const runButton = document.createElement("a");
+	const separator = document.createElement("span");
+
+	separator.classList.add("separator");
+
+	const randomId = generateRandomId();
 
 	const jsIcon = document.createElement("i");
 	const pyIcon = document.createElement("i");
 	const htmlIcon = document.createElement("i");
+	const runIcon = document.createElement("i");
 
 	jsIcon.classList.add("script-language-icon");
 	pyIcon.classList.add("script-language-icon");
 	htmlIcon.classList.add("script-language-icon");
-
-	const jsText = document.createElement("span");
-	const pyText = document.createElement("span");
-	const htmlText = document.createElement("span");
 
 	const jsRadioBtn = document.createElement("input");
 	const pyRadioBtn = document.createElement("input");
@@ -300,13 +302,20 @@ function addScriptLanguagesButtons() {
 	pyRadioBtn.type = "radio";
 	htmlRadioBtn.type = "radio";
 
-	jsRadioBtn.name = "script-language";
-	pyRadioBtn.name = "script-language";
-	htmlRadioBtn.name = "script-language";
+	jsRadioBtn.name = "script-language-" + randomId;
+	pyRadioBtn.name = "script-language-" + randomId;
+	htmlRadioBtn.name = "script-language-" + randomId;
+
+	jsRadioBtn.id = "js-" + randomId;
+	pyRadioBtn.id = "py-" + randomId;
+	htmlRadioBtn.id = "html-" + randomId;
 
 	jsRadioBtn.classList.add("script-language-radio");
+	jsRadioBtn.classList.add("js");
 	pyRadioBtn.classList.add("script-language-radio");
+	pyRadioBtn.classList.add("py");
 	htmlRadioBtn.classList.add("script-language-radio");
+	htmlRadioBtn.classList.add("html");
 
 	jsRadioBtn.value = "js";
 	jsRadioBtn.checked = true;
@@ -319,14 +328,13 @@ function addScriptLanguagesButtons() {
 	pyIcon.classList.add("fa-python");
 	htmlIcon.classList.add("fab");
 	htmlIcon.classList.add("fa-html5");
+	runIcon.classList.add("far");
+	runIcon.classList.add("fa-play-circle");
 
 	buttonContainer.classList.add("script-language-selector");
 
-	jsText.textContent = "JS";
-	pyText.textContent = "Py";
-	htmlText.textContent = "HTML";
-
-	runButton.textContent = "Run";
+	runButton.classList.add("run-button");
+	runButton.appendChild(runIcon);
 	runButton.addEventListener("click", runCell);
 
 	jsRadioBtn.addEventListener("change", function (evt) {
@@ -339,19 +347,22 @@ function addScriptLanguagesButtons() {
 		changeScriptLanguage(evt, "html");
 	});
 
+	jsLabel.appendChild(jsRadioBtn);
+	pyLabel.appendChild(pyRadioBtn);
+	htmlLabel.appendChild(htmlRadioBtn);
+
+	jsLabel.htmlFor = "js-" + randomId;
+	pyLabel.htmlFor = "py-" + randomId;
+	htmlLabel.htmlFor = "html-" + randomId;
+
 	jsLabel.appendChild(jsIcon);
-	jsLabel.appendChild(jsText);
 	pyLabel.appendChild(pyIcon);
-	pyLabel.appendChild(pyText);
 	htmlLabel.appendChild(htmlIcon);
-	htmlLabel.appendChild(htmlText);
 
 	buttonContainer.appendChild(jsLabel);
-	buttonContainer.appendChild(jsRadioBtn);
 	buttonContainer.appendChild(pyLabel);
-	buttonContainer.appendChild(pyRadioBtn);
 	buttonContainer.appendChild(htmlLabel);
-	buttonContainer.appendChild(htmlRadioBtn);
+	buttonContainer.appendChild(separator);
 	buttonContainer.appendChild(runButton);
 
 	return buttonContainer;
@@ -361,15 +372,19 @@ function changeScriptLanguage(evt, language) {
 	switch (language) {
 		case "js": {
 			currentScriptLanguage = "js";
-			evt.target.parentNode.nextElementSibling.CodeMirror.setOption("mode", {
-				name: "javascript",
-				globalVars: true,
-			});
+			evt.target.parentNode.parentNode.nextElementSibling.CodeMirror.setOption(
+				"mode",
+				{
+					name: "javascript",
+					globalVars: true,
+				}
+			);
 			break;
 		}
 		case "py": {
 			currentScriptLanguage = "py";
-			const codeMirror = evt.target.parentNode.nextElementSibling.CodeMirror;
+			const codeMirror =
+				evt.target.parentNode.parentNode.nextElementSibling.CodeMirror;
 			codeMirror.setOption("mode", {
 				name: "python",
 				version: 3,
@@ -379,10 +394,13 @@ function changeScriptLanguage(evt, language) {
 		}
 		case "html": {
 			currentScriptLanguage = "html";
-			evt.target.parentNode.nextElementSibling.CodeMirror.setOption("mode", {
-				name: "html",
-				globalVars: true,
-			});
+			evt.target.parentNode.parentNode.nextElementSibling.CodeMirror.setOption(
+				"mode",
+				{
+					name: "html",
+					globalVars: true,
+				}
+			);
 			break;
 		}
 
@@ -407,4 +425,8 @@ function getHintsPython(e) {
 		});
 	}
 	return hints;
+}
+
+function generateRandomId() {
+	return Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
 }

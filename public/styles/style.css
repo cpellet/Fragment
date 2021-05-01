@@ -10,6 +10,13 @@ body {
 a {
 	text-decoration: none;
 }
+
+.script-language-icon {
+	color: rgb(242, 242, 242);
+	height: calc(1rem + 0.5vw);
+	width: calc(1rem + 0.5vw) !important;
+	margin: 0.2rem;
+}
 .container {
 	position: relative;
 	margin-left: auto;
@@ -223,7 +230,7 @@ a {
 	border-radius: 20px;
 	height: auto;
 	background-color: transparent;
-	margin-top: 1.25rem;
+	margin-top: 3rem;
 }
 /* PADDING */
 .CodeMirror-lines {
@@ -235,6 +242,9 @@ a {
 	position: absolute;
 	right: 0;
 	z-index: 5;
+	background-color: rgba(0, 0, 16, 0.8);
+	padding: 0.4rem 0.4rem 0.1rem 0.4rem;
+	border-radius: 2.2rem;
 }
 
 .script-language-radio {
@@ -244,4 +254,61 @@ a {
 
 .script-language-icon {
 	margin-right: 5px;
+}
+
+#radios label {
+	position: relative;
+}
+
+input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+}
+
+input[type="radio"] + svg,
+.run-button + svg {
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+input + svg {
+	cursor: pointer;
+}
+
+input[class="script-language-radio js"]:hover + svg,
+input[class="script-language-radio js"]:checked + svg,
+input[class="script-language-radio js"]:focus + svg {
+	color: rgb(247, 224, 24);
+}
+
+input[class="script-language-radio py"]:hover + svg,
+input[class="script-language-radio py"]:checked + svg,
+input[class="script-language-radio py"]:focus + svg {
+	color: rgb(41, 148, 255);
+}
+
+input[class="script-language-radio html"]:hover + svg,
+input[class="script-language-radio html"]:checked + svg,
+input[class="script-language-radio html"]:focus + svg {
+	color: rgb(255, 87, 34);
+}
+
+.run-button > svg {
+	color: rgb(0, 211, 0);
+	height: calc(1rem + 0.5vw);
+	width: calc(1rem + 0.5vw) !important;
+	margin: 0.2rem 0.2rem 0.2rem 0.5rem;
+}
+
+.run-button:hover > svg {
+	color: rgb(0, 255, 0);
+}
+
+.separator {
+	border-left: 3px solid rgb(126, 126, 126);
+	height: 100%;
+	font-size: xx-large;
+	border-radius: 10px;
+	margin-left: 0.2rem;
+	opacity: 0.5;
 }
