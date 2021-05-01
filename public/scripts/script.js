@@ -68,7 +68,7 @@ function addCell(above, type) {
 
 	cellContainer.appendChild(cellScript);
 	cellContainer.appendChild(cellResult);
-	cellScript.appendChild(addScriptLanguagesButtons());
+	cellScript.appendChild(addScriptLanguagesButtons(type));
 
 	if (above) {
 		notebookContents.insertBefore(cellContainer, focusedElem);
@@ -86,9 +86,10 @@ function addCell(above, type) {
 		autofocus: true,
 		matchBrackets: true,
 	});
-	if (type === "CODE") {
+	if (type === "CODE")
 		codeMirrorCell.setOption("mode", { name: "javascript", globalVars: true });
-	}
+	else if (type === "MARKDOWN")
+		codeMirrorCell.setOption("mode", { name: "text/html" });
 
 	codeMirrorCell.on("focus", function (instance) {
 		focusedElem = instance.getWrapperElement().parentNode.parentNode;
@@ -273,7 +274,7 @@ function addSubmenu(menu, title) {
 // 	/>
 // </div>;
 
-function addScriptLanguagesButtons() {
+function addScriptLanguagesButtons(type) {
 	const buttonContainer = document.createElement("div");
 	const jsLabel = document.createElement("label");
 	const pyLabel = document.createElement("label");
@@ -318,7 +319,8 @@ function addScriptLanguagesButtons() {
 	htmlRadioBtn.classList.add("html");
 
 	jsRadioBtn.value = "js";
-	jsRadioBtn.checked = true;
+	if (type === "CODE") jsRadioBtn.checked = true;
+	else if (type === "MARKDOWN") htmlRadioBtn.checked = true;
 	pyRadioBtn.value = "py";
 	htmlRadioBtn.value = "html";
 
