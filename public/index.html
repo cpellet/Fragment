@@ -31,6 +31,7 @@
   <script src="scripts/plugins/code-mirror/anyword-hint.js"></script>
 
   <script defer src="scripts/plugins/font-awesome/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js"></script>
 </head>
 
 <body>
@@ -60,32 +61,15 @@
           <a>Cell</a>
           <ul class="submenu">
             <li class="dropdown">
-              <a>Insert above <i class="arrow right"></i></a>
+              <a>Insert cell <i class="arrow right"></i></a>
               <ul class="submenu">
                 <li>
                   <a onclick="addCell(true, 'CODE')" onmouseover="addSkeletonCell(true,  'CODE')"
-                    onmouseout="deleteSkeletonCells()">Code
-                    cell<span>Ctrl + ↑</span></a>
+                    onmouseout="deleteSkeletonCells()">Above<span>Ctrl + ↑</span></a>
                 </li>
-                <li>
-                  <a onclick="addCell(true, 'MARKDOWN')" onmouseover="addSkeletonCell(true,  'MARKDOWN')"
-                    onmouseout="deleteSkeletonCells()">Markdown
-                    cell<span>Ctrl + Shift + ↑</span></a>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a>Insert below <i class="arrow right"></i></a>
-              <ul class="submenu">
                 <li>
                   <a onclick="addCell(false, 'CODE')" onmouseover="addSkeletonCell(false,  'CODE')"
-                    onmouseout="deleteSkeletonCells()">Code
-                    cell<span>Ctrl + ↓</span></a>
-                </li>
-                <li>
-                  <a onclick="addCell(false, 'MARKDOWN')" onmouseover="addSkeletonCell(false,  'MARKDOWN')"
-                    onmouseout="deleteSkeletonCells()">Markdown
-                    cell<span>Ctrl + Shift + ↓</span></a>
+                    onmouseout="deleteSkeletonCells()">Below<span>Ctrl + ↓</span></a>
                 </li>
               </ul>
             </li>
@@ -110,7 +94,6 @@
     </div>
   </nav>
   <div id="notebook-contents">
-
   </div>
   <script src="scripts/script.js"></script>
 </body>

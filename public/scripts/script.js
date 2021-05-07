@@ -39,6 +39,17 @@ window.addEventListener("mouseup", (event) => {
 
 document.onkeydown = KeyPress;
 
+let script = document.createElement('script');
+script.src = "https://cdn.jsdelivr.net/npm/mathpix-markdown-it@1.0.40/es5/bundle.js";
+document.head.append(script);
+
+script.onload = function () {
+	const isLoaded = window.loadMathJax();
+	if (isLoaded) {
+		console.log('Styles loaded!')
+	}
+}
+
 const getMethods = (obj) => {
 	let properties = new Set();
 	let currentObj = obj;
@@ -172,11 +183,40 @@ function deleteCell() {
 	removeDeleteSkeletons();
 }
 
-function runCell() {
-	const resultCell = focusedElem.firstChild.nextElementSibling;
-	const scriptValue = focusedElem.firstChild.firstChild.nextElementSibling.CodeMirror.getValue();
+async function loadPython() {
+	await loadPyodide({
+		indexURL: "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/"
+	});
+	await pyodide.runPythonAsync(`
+    import sys
+    import io
+    sys.stdout = io.StringIO()
+`);
+}
 
-	resultCell.textContent = evaluate(scriptValue);
+loadPython();
+
+
+async function runCell() {
+	const resultCell = focusedElem.firstChild.nextElementSibling;
+	const cm = focusedElem.firstChild.firstChild.nextElementSibling.CodeMirror
+	const scriptValue = cm.getValue();
+
+	if (cm.getOption("mode")["name"] == "javascript") {
+		resultCell.textContent = evaluate(scriptValue);
+	} else if (cm.getOption("mode")["name"] == "html") {
+		const options = {
+			htmlTags: true
+		};
+		const html = window.markdownToHTML(scriptValue, options);
+		resultCell.innerHTML = html;
+	} else {
+		await pyodide.runPythonAsync(scriptValue)
+			.then(output => { resultCell.textContent = pyodide.runPython("sys.stdout.getvalue()") })
+			.catch((err) => { resultCell.textContent = err })
+		pyodide.runPython(`sys.stdout = io.StringIO()`)
+	}
+
 	if (scriptValue.replace(/ /g, "") !== "") {
 		focusedElem.firstChild.classList.remove("selected");
 		resultCell.classList.remove("hidden");
@@ -188,6 +228,7 @@ function runCell() {
 		nextCell.firstChild.firstChild.focus();
 	}
 }
+
 
 function evaluate(data) {
 	let message = "";
@@ -329,7 +370,7 @@ function addScriptLanguagesButtons(type) {
 	pyIcon.classList.add("fab");
 	pyIcon.classList.add("fa-python");
 	htmlIcon.classList.add("fab");
-	htmlIcon.classList.add("fa-html5");
+	htmlIcon.classList.add("fa-markdown");
 	runIcon.classList.add("far");
 	runIcon.classList.add("fa-play-circle");
 
