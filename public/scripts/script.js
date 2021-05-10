@@ -64,9 +64,20 @@ const getMethods = (obj) => {
 const notebookContents = document.querySelector("#notebook-contents");
 
 var focusedElem;
-var currentScriptLanguage = "js";
+var currentScriptLanguage = "javascript";
 
-function addCell(above, type) {
+function loadState() {
+	if (window.sessionStorage.getItem('nb')) {
+		const nb = JSON.parse(window.sessionStorage.getItem('nb'));
+		for (const cellData of nb.cells) {
+			addCell(false, cellData.language, cellData.code, cellData.res);
+		}
+	}
+}
+
+loadState();
+
+function addCell(above, language, code, result) {
 	const cellContainer = document.createElement("div");
 	const cellScript = document.createElement("div");
 	const cellResult = document.createElement("div");
@@ -75,11 +86,17 @@ function addCell(above, type) {
 	cellScript.classList.add("cell-script");
 	cellScript.classList.add("selected");
 	cellResult.classList.add("cell-result");
-	cellResult.classList.add("hidden");
+
+	if (result) {
+		cellResult.innerHTML = result;
+	} else {
+		cellResult.classList.add("hidden");
+	}
 
 	cellContainer.appendChild(cellScript);
 	cellContainer.appendChild(cellResult);
-	cellScript.appendChild(addScriptLanguagesButtons(type));
+	cellScript.appendChild(addScriptLanguagesButtons(language));
+	cellContainer.appendChild(addMoveUpDownButtons());
 
 	if (above) {
 		notebookContents.insertBefore(cellContainer, focusedElem);
@@ -97,11 +114,45 @@ function addCell(above, type) {
 		autofocus: true,
 		matchBrackets: true,
 	});
-	if (type === "CODE")
-		codeMirrorCell.setOption("mode", { name: "javascript", globalVars: true });
-	else if (type === "MARKDOWN")
-		codeMirrorCell.setOption("mode", { name: "text/html" });
+	if (code) {
+		codeMirrorCell.setValue(code);
+	}
+	switch (language) {
+		case "javascript": {
+			currentScriptLanguage = "javascript";
+			codeMirrorCell.setOption(
+				"mode",
+				{
+					name: "javascript",
+					globalVars: true,
+				}
+			);
+			break;
+		}
+		case "python": {
+			currentScriptLanguage = "python";
+			codeMirrorCell.setOption("mode", {
+				name: "python",
+				version: 3,
+				globalVars: true,
+			});
+			break;
+		}
+		case "html": {
+			currentScriptLanguage = "html";
+			codeMirrorCell.setOption(
+				"mode",
+				{
+					name: "html",
+					globalVars: true,
+				}
+			);
+			break;
+		}
 
+		default:
+			break;
+	}
 	codeMirrorCell.on("focus", function (instance) {
 		focusedElem = instance.getWrapperElement().parentNode.parentNode;
 		focusedElem.firstChild.classList.add("selected");
@@ -130,7 +181,7 @@ function addCell(above, type) {
 			evt.key !== "Alt"
 		) {
 			/*Enter - do not open autocomplete list just after item has been selected in it*/
-			if (currentScriptLanguage === "py") {
+			if (currentScriptLanguage === "python") {
 				CodeMirror.commands.autocomplete(instance, null, {
 					hint: getHintsPython,
 					completeSingle: false,
@@ -144,6 +195,7 @@ function addCell(above, type) {
 	});
 	codeMirrorCell.focus();
 	deleteSkeletonCells();
+	saveState();
 }
 
 function addSkeletonCell(above, type) {
@@ -183,7 +235,28 @@ function deleteCell() {
 	removeDeleteSkeletons();
 }
 
+function getNotebookAsObject() {
+	var nb = { cells: [] };
+	let cells = document.querySelector("#notebook-contents").children;
+	for (i = 0; i < cells.length; i++) {
+		const resultCell = cells[i].firstChild.nextElementSibling;
+		const cm = cells[i].firstChild.firstChild.nextElementSibling.CodeMirror
+		const scriptValue = cm.getValue();
+		const lang = cm.getOption("mode")['name'];
+		const resCellContentsHTML = resultCell.innerHTML;
+		nb.cells.push({
+			language: lang, code: scriptValue, res: resCellContentsHTML
+		});
+	}
+	return nb;
+}
+
+function saveState() {
+	window.sessionStorage.setItem('nb', JSON.stringify((getNotebookAsObject())));
+}
+
 async function loadPython() {
+	setLoadingStatus('Initialising...', 'orange');
 	await loadPyodide({
 		indexURL: "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/"
 	});
@@ -191,16 +264,46 @@ async function loadPython() {
     import sys
     import io
     sys.stdout = io.StringIO()
-`);
+	`);
+
+	displayPythonRuntimeInfo();
+	setLoadingStatus('Ready', 'green');
 }
 
 loadPython();
+
+function displayPythonRuntimeInfo() {
+	document.getElementById('py-version').textContent = pyodide.runPython(`sys.version`);
+	displayGlobals();
+	displayLoadedPackages();
+}
+
+function displayGlobals() {
+	const globals = pyodide.globals.toJs();
+	const globalList = document.getElementById("py-global-varables");
+	for (let element of globals) {
+		const listItem = document.createElement("li");
+		listItem.textContent = element[0];
+		globalList.appendChild(listItem);
+	}
+}
+function displayLoadedPackages() {
+	const packages = pyodide.loadedPackages;
+	const packagesList = document.getElementById("py-loaded-packages");
+	for (let element in packages) {
+		const listItem = document.createElement("li");
+		listItem.textContent = element;
+		packagesList.appendChild(listItem);
+	}
+}
 
 
 async function runCell() {
 	const resultCell = focusedElem.firstChild.nextElementSibling;
 	const cm = focusedElem.firstChild.firstChild.nextElementSibling.CodeMirror
 	const scriptValue = cm.getValue();
+
+	setLoadingStatus('Computing...', 'orange');
 
 	if (cm.getOption("mode")["name"] == "javascript") {
 		resultCell.textContent = evaluate(scriptValue);
@@ -214,18 +317,29 @@ async function runCell() {
 		await pyodide.runPythonAsync(scriptValue)
 			.then(output => { resultCell.textContent = pyodide.runPython("sys.stdout.getvalue()") })
 			.catch((err) => { resultCell.textContent = err })
-		pyodide.runPython(`sys.stdout = io.StringIO()`)
+		await pyodide.runPythonAsync(`sys.stdout = io.StringIO()`)
+		displayGlobals();
+		displayLoadedPackages();
 	}
 
 	if (scriptValue.replace(/ /g, "") !== "") {
 		focusedElem.firstChild.classList.remove("selected");
 		resultCell.classList.remove("hidden");
 	}
-
+	saveState();
+	setLoadingStatus('Ready', 'green');
 	const nextCell = focusedElem.parentNode.nextElementSibling.firstChild;
 	if (nextCell) {
 		nextCell.classList.add("selected");
 		nextCell.firstChild.firstChild.focus();
+	}
+}
+
+async function runAll() {
+	let cells = document.querySelector("#notebook-contents").children;
+	for (i = 0; i < cells.length; i++) {
+		focusedElem = cells[i];
+		await runCell();
 	}
 }
 
@@ -258,12 +372,8 @@ function removeDeleteSkeletons() {
 function KeyPress(e) {
 	var evtobj = window.event ? event : e;
 	if (evtobj.keyCode === 8 && evtobj.ctrlKey) deleteCell();
-	else if (evtobj.keyCode === 40 && evtobj.ctrlKey && evtobj.shiftKey)
-		addCell(false, "MARKDOWN");
-	else if (evtobj.keyCode === 38 && evtobj.ctrlKey && evtobj.shiftKey)
-		addCell(true, "MARKDOWN");
-	else if (evtobj.keyCode === 40 && evtobj.ctrlKey) addCell(false, "CODE");
-	else if (evtobj.keyCode === 38 && evtobj.ctrlKey) addCell(true, "CODE");
+	else if (evtobj.keyCode === 40 && evtobj.ctrlKey) addCell(false, "javascript");
+	else if (evtobj.keyCode === 38 && evtobj.ctrlKey) addCell(true, "javascript");
 	else if (evtobj.keyCode === 13 && evtobj.ctrlKey) {
 		e.preventDefault();
 		runCell();
@@ -315,6 +425,40 @@ function addSubmenu(menu, title) {
 // 	/>
 // </div>;
 
+function addMoveUpDownButtons() {
+	const arrowContainer = document.createElement("div");
+	const upArrowContainer = document.createElement('div');
+	const downArrowContainer = document.createElement('div');
+	const upArrow = document.createElement("i");
+	const downArrow = document.createElement("i");
+	arrowContainer.classList.add("arrow-container");
+	upArrow.classList.add("fas");
+	upArrow.classList.add("fa-arrow-up");
+	downArrow.classList.add("fas");
+	downArrow.classList.add("fa-arrow-down");
+
+	upArrowContainer.addEventListener('click', function (e) {
+		let cell = e.target.parentNode.parentNode.parentNode.parentNode;
+		let previousCell = cell.previousSibling;
+		cell.parentNode.insertBefore(cell, previousCell);
+
+		saveState();
+	});
+	downArrowContainer.addEventListener('click', function (e) {
+		let cell = e.target.parentNode.parentNode.parentNode.parentNode;
+		let nextCell = cell.nextElementSibling;
+		cell.parentNode.insertBefore(nextCell, cell);
+
+		saveState();
+	});
+
+	upArrowContainer.appendChild(upArrow);
+	downArrowContainer.appendChild(downArrow);
+	arrowContainer.appendChild(upArrowContainer);
+	arrowContainer.appendChild(downArrowContainer);
+	return arrowContainer;
+}
+
 function addScriptLanguagesButtons(type) {
 	const buttonContainer = document.createElement("div");
 	const jsLabel = document.createElement("label");
@@ -348,21 +492,22 @@ function addScriptLanguagesButtons(type) {
 	pyRadioBtn.name = "script-language-" + randomId;
 	htmlRadioBtn.name = "script-language-" + randomId;
 
-	jsRadioBtn.id = "js-" + randomId;
-	pyRadioBtn.id = "py-" + randomId;
+	jsRadioBtn.id = "javascript-" + randomId;
+	pyRadioBtn.id = "python-" + randomId;
 	htmlRadioBtn.id = "html-" + randomId;
 
 	jsRadioBtn.classList.add("script-language-radio");
-	jsRadioBtn.classList.add("js");
+	jsRadioBtn.classList.add("javascript");
 	pyRadioBtn.classList.add("script-language-radio");
-	pyRadioBtn.classList.add("py");
+	pyRadioBtn.classList.add("python");
 	htmlRadioBtn.classList.add("script-language-radio");
 	htmlRadioBtn.classList.add("html");
 
-	jsRadioBtn.value = "js";
-	if (type === "CODE") jsRadioBtn.checked = true;
-	else if (type === "MARKDOWN") htmlRadioBtn.checked = true;
-	pyRadioBtn.value = "py";
+	jsRadioBtn.value = "javascript";
+	if (type === "html") htmlRadioBtn.checked = true;
+	else if (type === "python") pyRadioBtn.checked = true;
+	else if (type === "javascript") jsRadioBtn.checked = true;
+	pyRadioBtn.value = "python";
 	htmlRadioBtn.value = "html";
 
 	jsIcon.classList.add("fab");
@@ -381,10 +526,10 @@ function addScriptLanguagesButtons(type) {
 	runButton.addEventListener("click", runCell);
 
 	jsRadioBtn.addEventListener("change", function (evt) {
-		changeScriptLanguage(evt, "js");
+		changeScriptLanguage(evt, "javascript");
 	});
 	pyRadioBtn.addEventListener("change", function (evt) {
-		changeScriptLanguage(evt, "py");
+		changeScriptLanguage(evt, "python");
 	});
 	htmlRadioBtn.addEventListener("change", function (evt) {
 		changeScriptLanguage(evt, "html");
@@ -394,8 +539,8 @@ function addScriptLanguagesButtons(type) {
 	pyLabel.appendChild(pyRadioBtn);
 	htmlLabel.appendChild(htmlRadioBtn);
 
-	jsLabel.htmlFor = "js-" + randomId;
-	pyLabel.htmlFor = "py-" + randomId;
+	jsLabel.htmlFor = "javascript-" + randomId;
+	pyLabel.htmlFor = "python-" + randomId;
 	htmlLabel.htmlFor = "html-" + randomId;
 
 	jsLabel.appendChild(jsIcon);
@@ -413,8 +558,8 @@ function addScriptLanguagesButtons(type) {
 
 function changeScriptLanguage(evt, language) {
 	switch (language) {
-		case "js": {
-			currentScriptLanguage = "js";
+		case "javascript": {
+			currentScriptLanguage = "javascript";
 			evt.target.parentNode.parentNode.nextElementSibling.CodeMirror.setOption(
 				"mode",
 				{
@@ -424,8 +569,8 @@ function changeScriptLanguage(evt, language) {
 			);
 			break;
 		}
-		case "py": {
-			currentScriptLanguage = "py";
+		case "python": {
+			currentScriptLanguage = "python";
 			const codeMirror =
 				evt.target.parentNode.parentNode.nextElementSibling.CodeMirror;
 			codeMirror.setOption("mode", {
@@ -450,6 +595,7 @@ function changeScriptLanguage(evt, language) {
 		default:
 			break;
 	}
+	saveState();
 }
 
 function getHintsPython(e) {
@@ -472,4 +618,24 @@ function getHintsPython(e) {
 
 function generateRandomId() {
 	return Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
+}
+
+
+function setLoadingStatus(status, color) {
+	const runStatus = document.getElementById('run-status');
+	runStatus.textContent = status;
+	runStatus.style.color = color;
+}
+
+
+function toggleExpand() {
+	const expander = document.querySelector('.expander-icon');
+	const bottomPanel = document.querySelector('.bottom-panel');
+	if (expander.classList.contains('fa-chevron-up')) {
+		bottomPanel.style.height = '20vh';
+		expander.classList.replace('fa-chevron-up', 'fa-chevron-down');
+	} else {
+		bottomPanel.style.height = '0';
+		expander.classList.replace('fa-chevron-down', 'fa-chevron-up');
+	}
 }

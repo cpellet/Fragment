@@ -25,7 +25,7 @@ a {
 	padding-right: 15px;
 }
 .navbar,
-.navbar .container {
+.navbar .container, .bottom-panel .container {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -42,6 +42,42 @@ a {
 	z-index: 3;
 }
 
+.bottom-panel{
+	
+	box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.035);
+	background-color: #fff ;
+	position: fixed;
+	bottom: 0;
+	z-index: 3;
+	border-radius: 50px 50px 0 0;
+	width: 100%;
+	height: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+.expander{
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	box-shadow: 0.1rem -0.3rem 1rem rgba(0, 0, 0, 0.035);
+	top: -30px;
+	height: 30px;
+	width: 100px;
+	border-radius: 50px 50px 0 0;
+	display: flex;
+	cursor: pointer;
+}
+
+.python-info-container{
+	width: 30%;
+}
+
+.expander-icon{
+	margin:auto
+}
+
 .navbar .navbar-header {
 	display: flex;
 	align-items: center;
@@ -56,8 +92,21 @@ a {
 	color: dimgrey;
 }
 
+.status-container{
+	margin-left: auto;
+    align-self: center;
+	display: flex;
+}
+
+#run-status{
+	color: rgb(127, 127, 245);
+	font-style: italic;
+	font-weight: 900;
+}
+
+
 .menu {
-	display: block;
+	display: flex;
 	z-index: 999999;
 	width: 80%;
 	margin: 0 auto;
@@ -199,6 +248,7 @@ a {
 .cell {
 	border: 15px;
 	height: min-content;
+	position: relative;
 	width: 80%;
 	margin: 1rem auto 2rem auto;
 }
@@ -255,6 +305,16 @@ a {
 	color: gray;
 }
 
+.arrow-container{
+	display: grid;
+	position: absolute;
+	top: 0;
+	left: -40px;
+	height: 100%;
+	align-content: space-around;
+}
+
+
 #radios label {
 	position: relative;
 }
@@ -274,15 +334,15 @@ input + svg {
 	cursor: pointer;
 }
 
-input[class="script-language-radio js"]:hover + svg,
-input[class="script-language-radio js"]:checked + svg,
-input[class="script-language-radio js"]:focus + svg {
+input[class="script-language-radio javascript"]:hover + svg,
+input[class="script-language-radio javascript"]:checked + svg,
+input[class="script-language-radio javascript"]:focus + svg {
 	color: rgb(255, 238, 0);
 }
 
-input[class="script-language-radio py"]:hover + svg,
-input[class="script-language-radio py"]:checked + svg,
-input[class="script-language-radio py"]:focus + svg {
+input[class="script-language-radio python"]:hover + svg,
+input[class="script-language-radio python"]:checked + svg,
+input[class="script-language-radio python"]:focus + svg {
 	color: rgb(41, 148, 255);
 }
 

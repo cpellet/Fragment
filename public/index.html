@@ -11,16 +11,14 @@
   <meta name="author" content="MIZIX R&D">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
-  </link>
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/show-hint.css">
   <link rel="stylesheet" href="styles/monokai.css">
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
   </script>
-  <script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
-    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
+  </script>
   <script src="scripts/plugins/code-mirror/show-hint.js"></script>
   <script src="scripts/plugins/code-mirror/javascript-hint.js"></script>
   <script src="scripts/plugins/code-mirror/html-hint.js"></script>
@@ -39,7 +37,7 @@
     <div class="container">
       <div class="navbar-header">
         <a href="#">
-          <h4>Fragment<span>JS</span></h4>
+          <h4>Fragment<span>Web</span></h4>
         </a>
       </div>
       <ul class="menu">
@@ -58,17 +56,17 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a>Cell</a>
+          <a>Cells</a>
           <ul class="submenu">
             <li class="dropdown">
               <a>Insert cell <i class="arrow right"></i></a>
               <ul class="submenu">
                 <li>
-                  <a onclick="addCell(true, 'CODE')" onmouseover="addSkeletonCell(true,  'CODE')"
+                  <a onclick="addCell(true, 'javascript')" onmouseover="addSkeletonCell(true,  'CODE')"
                     onmouseout="deleteSkeletonCells()">Above<span>Ctrl + ↑</span></a>
                 </li>
                 <li>
-                  <a onclick="addCell(false, 'CODE')" onmouseover="addSkeletonCell(false,  'CODE')"
+                  <a onclick="addCell(false, 'javascript')" onmouseover="addSkeletonCell(false,  'CODE')"
                     onmouseout="deleteSkeletonCells()">Below<span>Ctrl + ↓</span></a>
                 </li>
               </ul>
@@ -76,6 +74,12 @@
             <li>
               <a onclick="deleteCell()" onmouseover="displayDeleteSkeleton()"
                 onmouseout="removeDeleteSkeletons()">Delete<span>Ctrl+Backspace</span></a>
+            </li>
+            <li>
+              <a onclick="" onmouseout="removeDeleteSkeletons()">Run<span>Ctrl+Enter</span></a>
+            </li>
+            <li>
+              <a onclick="runAll()" onmouseout="removeDeleteSkeletons()">Run all<span>Ctrl+Shift+Enter</span></a>
             </li>
           </ul>
         </li>
@@ -85,17 +89,43 @@
             <li class="dropdown">
               <a>Math <i class="arrow right"></i></a>
               <ul class="submenu" id="mathfuncmenu">
-
               </ul>
             </li>
           </ul>
         </li>
+        <li class="status-container">Run status: <span id="run-status">Stopped</span></li>
       </ul>
     </div>
   </nav>
   <div id="notebook-contents">
   </div>
+
+  <div class="bottom-panel">
+    <div class="expander" onclick="toggleExpand()">
+      <i class="fas fa-chevron-up expander-icon"></i>
+    </div>
+    <div class="status-container">
+
+      <div class = "python-info-container">
+        <h2>Python runtime</h2>
+        <br>
+        <h5>Version: <span id="py-version"></span></h5>
+      </div>
+      <div class = "python-info-container">
+        <h3>Loaded packages</h3>
+        <ul id="py-loaded-packages" style="overflow:hidden; overflow-y:scroll;height:100px; width:100%;"></ul>
+      </div>
+      <div class = "python-info-container">
+        <h3>Globals</h3>
+        <ul id="py-global-varables" style="overflow:hidden; overflow-y:scroll;height:100px; width:100%;"></ul>
+      </div>
+    </div>
+  </div>
+  </div>
+
   <script src="scripts/script.js"></script>
+
+
 </body>
 
 </html>
