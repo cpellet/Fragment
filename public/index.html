@@ -34,7 +34,7 @@
 
 <body>
   <nav class="navbar">
-    <div class="container">
+    <div class="container blur">
       <div class="navbar-header">
         <a href="#">
           <h4>Fragment<span>Web</span></h4>
@@ -106,16 +106,16 @@
     </div>
     <div class="status-container">
 
-      <div class = "python-info-container">
+      <div class="python-info-container">
         <h2>Python runtime</h2>
         <br>
         <h5>Version: <span id="py-version"></span></h5>
       </div>
-      <div class = "python-info-container">
+      <div class="python-info-container">
         <h3>Loaded packages</h3>
         <ul id="py-loaded-packages" style="overflow:hidden; overflow-y:scroll;height:100px; width:100%;"></ul>
       </div>
-      <div class = "python-info-container">
+      <div class="python-info-container">
         <h3>Globals</h3>
         <ul id="py-global-varables" style="overflow:hidden; overflow-y:scroll;height:100px; width:100%;"></ul>
       </div>
@@ -123,8 +123,40 @@
   </div>
   </div>
 
-  <script src="scripts/script.js"></script>
+  <div class="modal open">
+    <div class="content">
+      <h1>Welcome to Fragment<span>Web</span></h1>
+      <br>
+      <div class="menu-buttons">
+        <a class="action pickup" onclick="loadState()">Pick up where you left off</a>
+        <p class="pickup">or</p>
+        <a class="action" onclick="closePopup()">Start fresh</a>
+        <p>or</p>
+        <a>Browse our examples below</a>
+        <div class="examples-display">
+          <div class="example-cell">
+            <h2>Showcase</h2>
+            <i class="script-language-icon fab fa-js-square"></i>
+            <i class="script-language-icon fab fa-python"></i>
+            <i class="script-language-icon fab fa-markdown"></i>
+            <h3>5 cells</h3>
+            <br>
+            <h4>by the Fragment team</h4>
+          </div>
+          <div class="example-cell">
+            <h2>Markdown examples</h2>
+            <i class="script-language-icon fab fa-markdown"></i>
+            <h3>8 cells</h3>
+            <br>
+            <h4>by the Fragment team</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+
+  <script src="scripts/script.js"></script>
 
 </body>
 

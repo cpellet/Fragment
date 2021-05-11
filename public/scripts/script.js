@@ -67,15 +67,27 @@ var focusedElem;
 var currentScriptLanguage = "javascript";
 
 function loadState() {
+	closePopup();
+	const nb = JSON.parse(window.sessionStorage.getItem('nb'));
+	for (const cellData of nb.cells) {
+		addCell(false, cellData.language, cellData.code, cellData.res);
+	}
+}
+function preparePopup() {
 	if (window.sessionStorage.getItem('nb')) {
-		const nb = JSON.parse(window.sessionStorage.getItem('nb'));
-		for (const cellData of nb.cells) {
-			addCell(false, cellData.language, cellData.code, cellData.res);
-		}
+		const pickup = document.querySelectorAll(".pickup");
+		pickup.forEach((e)=>e.classList.remove("pickup"));
 	}
 }
 
-loadState();
+function closePopup() {
+	const containers = document.querySelectorAll(".container");
+	containers.forEach((e) => e.classList.remove("blur"));
+	const modal = document.querySelector(".modal");
+	modal.classList.remove("open");
+}
+
+preparePopup();
 
 function addCell(above, language, code, result) {
 	const cellContainer = document.createElement("div");
@@ -231,8 +243,8 @@ function deleteCell() {
 		focusedElem.firstChild.classList.add("selected");
 		focusedElem.firstChild.firstChild.nextElementSibling.CodeMirror.focus();
 	}
-
 	removeDeleteSkeletons();
+	saveState();
 }
 
 function getNotebookAsObject() {
