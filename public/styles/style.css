@@ -25,7 +25,8 @@ a {
 	padding-right: 15px;
 }
 .navbar,
-.navbar .container, .bottom-panel .container {
+.navbar .container,
+.bottom-panel .container {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -42,10 +43,9 @@ a {
 	z-index: 3;
 }
 
-.bottom-panel{
-	
+.bottom-panel {
 	box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.035);
-	background-color: #fff ;
+	background-color: #fff;
 	position: fixed;
 	bottom: 0;
 	z-index: 3;
@@ -56,8 +56,7 @@ a {
 	padding-right: 10px;
 }
 
-
-.expander{
+.expander {
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
@@ -70,12 +69,12 @@ a {
 	cursor: pointer;
 }
 
-.python-info-container{
+.python-info-container {
 	width: 30%;
 }
 
-.expander-icon{
-	margin:auto
+.expander-icon {
+	margin: auto;
 }
 
 .navbar .navbar-header {
@@ -92,18 +91,17 @@ a {
 	color: dimgrey;
 }
 
-.status-container{
+.status-container {
 	margin-left: auto;
-    align-self: center;
+	align-self: center;
 	display: flex;
 }
 
-#run-status{
+#run-status {
 	color: rgb(127, 127, 245);
 	font-style: italic;
 	font-weight: 900;
 }
-
 
 .menu {
 	display: flex;
@@ -224,8 +222,8 @@ a {
 	color: #3c425069;
 	font-size: x-large;
 	margin: 0;
-  	position: relative;
-  	top: 15%;
+	position: relative;
+	top: 15%;
 }
 
 .markedForDeletion {
@@ -305,7 +303,7 @@ a {
 	color: gray;
 }
 
-.arrow-container{
+.arrow-container {
 	display: grid;
 	position: absolute;
 	top: 0;
@@ -313,7 +311,6 @@ a {
 	height: 100%;
 	align-content: space-around;
 }
-
 
 #radios label {
 	position: relative;
@@ -373,80 +370,83 @@ input[class="script-language-radio html"]:focus + svg {
 }
 
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	visibility: hidden;
 }
 
 .modal .content {
-  position: relative;
-  padding: 30px;
-  width: 40vmax;
-  height: 60vmin;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
-  transform: scale(0);
-  transition: transform 300ms cubic-bezier(0.57, 0.21, 0.69, 1.25);
+	position: relative;
+	padding: 30px;
+	width: 40vmax;
+	height: 60vmin;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: rgba(112, 128, 175, 0.2) 0px 16px 24px 0px;
+	transform: scale(0);
+	transition: transform 300ms cubic-bezier(0.57, 0.21, 0.69, 1.25);
 }
 
 .modal.open {
-  opacity: 1;
-  visibility: visible;
+	opacity: 1;
+	visibility: visible;
 }
 .modal.open .content {
-  transform: scale(1);
+	transform: scale(1);
 }
 
 .container.blur {
-  filter: blur(5px);
+	filter: blur(5px);
 }
 
-h1{
-  font-weight: 300;
-  font-size: 2.5vw;
-  white-space: nowrap;
+h1 {
+	font-weight: 300;
+	font-size: 2.5vw;
+	white-space: nowrap;
 }
 
-h1 span{
+h1 span {
 	color: rgb(127, 127, 245);
 }
 
-.content a{
+.content a {
 	color: rgb(127, 127, 245);
 	font-size: 20px;
 	font-weight: 400;
 }
 
-.content  a.action{
+.content a.action {
 	font-size: 30px;
 	cursor: pointer;
 }
 
-.menu-buttons{
+.menu-buttons {
 	display: flex;
 	flex-direction: column;
 	height: 90%;
 	justify-content: space-around;
 }
 
-.content a.action:hover{
-	font-weight: 700;
+.content a.action:hover {
+	text-shadow: -0.5px -0.5px 0 rgba(127, 127, 245, 0.425),
+		0.5px -0.5px 0 rgba(127, 127, 245, 0.425),
+		-0.5px 0.5px 0 rgba(127, 127, 245, 0.425),
+		0.5px 0.5px 0 rgba(127, 127, 245, 0.425);
 }
 
-.examples-display{
+.examples-display {
 	display: flex;
 	flex-direction: row;
 }
 
-.example-cell{
+.example-cell {
 	width: 20vmin;
 	height: 20vmin;
 	padding: 20px;
@@ -455,16 +455,17 @@ h1 span{
 	border-radius: 30px;
 }
 
-
-.example-cell:hover{
+.example-cell:hover {
 	background-color: rgba(207, 207, 207, 0.801);
 	cursor: pointer;
 }
 
-.example-cell h2, .example-cell h3, .example-cell h4{
+.example-cell h2,
+.example-cell h3,
+.example-cell h4 {
 	font-weight: 300;
 }
 
-.pickup{
+.pickup {
 	display: none;
 }
