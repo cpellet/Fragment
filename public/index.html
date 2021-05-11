@@ -45,13 +45,13 @@
           <a>File</a>
           <ul class="submenu">
             <li>
-              <a>Open</a>
+              <a onclick="removeAllCells()">New</a>
             </li>
             <li>
-              <a>Save</a>
+              <a onclick="saveState()">Save</a>
             </li>
             <li>
-              <a>Close</a>
+              <a onclick="showPopup()">Close</a>
             </li>
           </ul>
         </li>
@@ -97,7 +97,7 @@
       </ul>
     </div>
   </nav>
-  <div id="notebook-contents">
+  <div id="notebook-contents" class="container blur">
   </div>
 
   <div class="bottom-panel">
@@ -134,19 +134,19 @@
         <p>or</p>
         <a>Browse our examples below</a>
         <div class="examples-display">
-          <div class="example-cell">
-            <h2>Showcase</h2>
+          <div class="example-cell" onclick="loadExample(0)">
+            <h2>Introduction</h2>
             <i class="script-language-icon fab fa-js-square"></i>
             <i class="script-language-icon fab fa-python"></i>
             <i class="script-language-icon fab fa-markdown"></i>
-            <h3>5 cells</h3>
+            <h3>3 cells</h3>
             <br>
             <h4>by the Fragment team</h4>
           </div>
-          <div class="example-cell">
+          <div class="example-cell" onclick="loadExample(1)">
             <h2>Markdown examples</h2>
             <i class="script-language-icon fab fa-markdown"></i>
-            <h3>8 cells</h3>
+            <h3>5 cells</h3>
             <br>
             <h4>by the Fragment team</h4>
           </div>
